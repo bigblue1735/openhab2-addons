@@ -107,7 +107,7 @@ public class MilightBridgeV3Handler extends AbstractMilightBridgeHandler impleme
     @Override
     public void dispose() {
         if (discover != null) {
-            discover.release();
+            discover.dispose();
         }
         super.dispose();
     }
@@ -171,7 +171,6 @@ public class MilightBridgeV3Handler extends AbstractMilightBridgeHandler impleme
 
     @Override
     public void noBridgeDetected() {
-        updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.NONE,
-                "Bridge did not respond or the bridge's MAC address does not match with your configuration!");
+        updateStatus(ThingStatus.OFFLINE);
     }
 }

@@ -8,10 +8,8 @@
  */
 package org.openhab.binding.rfxcom.internal.config;
 
-import org.openhab.binding.rfxcom.internal.connector.RFXComBaseConnector;
-
 /**
- * Configuration class for {@link RFXComBaseConnector} device.
+ * Configuration class for {@link RfxcomBinding} device.
  *
  * @author Pauli Anttila - Initial contribution
  */

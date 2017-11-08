@@ -1,5 +1,6 @@
 /**
- * Copyright (c) 2014-2016 by the respective copyright holders.
+ * Copyright (c) 2010-2017 by the respective copyright holders.
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,14 +8,20 @@
  */
 package org.openhab.binding.helios.handler;
 
-import static org.openhab.binding.helios.HeliosBindingConstants.*;
+import static org.openhab.binding.helios.HeliosBindingConstants.DATE;
 
+import java.math.BigDecimal;
+
+import org.eclipse.smarthome.config.core.Configuration;
 import org.eclipse.smarthome.core.thing.ChannelUID;
 import org.eclipse.smarthome.core.thing.Thing;
 import org.eclipse.smarthome.core.thing.ThingStatus;
+import org.eclipse.smarthome.core.thing.ThingStatusDetail;
 import org.eclipse.smarthome.core.thing.binding.BaseThingHandler;
 import org.eclipse.smarthome.core.types.Command;
+import org.openhab.binding.helios.HeliosBindingConstants;
 import org.openhab.binding.helios.internal.HeliosCommunicator;
+import org.openhab.binding.helios.internal.HeliosConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,70 +29,65 @@ import org.slf4j.LoggerFactory;
  * The {@link HeliosHandler} is responsible for handling commands, which are
  * sent to one of the channels.
  *
- * @author Bernhard Bauer - Initial contribution
+ * @author Susi Loma - Initial contribution
  */
 public class HeliosHandler extends BaseThingHandler {
 
-    private Logger logger = LoggerFactory.getLogger(HeliosHandler.class);
+    private final Logger logger = LoggerFactory.getLogger(HeliosHandler.class);
 
-    /**
-     * The IP Address of the Helios device
-     */
-    private String host;
+    private HeliosCommunicator heliosCom;
 
-    /**
-     * The port of the Helios device
-     */
-    private int port;
+    public HeliosHandler(Thing thing) {
+        super(thing);
+    }
 
-    /**
-     * The unit address of the Helios device
-     */
-    private int unit;
+    @Override
+    public void handleCommand(ChannelUID channelUID, Command command) {
 
-    /**
-     * The start address when reading/writing from/to the modbus
-     */
-    private int startAddress;
-
-
-	public HeliosHandler(Thing thing) {
-		super(thing);
-	}
-
-	@Override
-	public void handleCommand(ChannelUID channelUID, Command command) {
-
-	    HeliosCommunicator heliosComm = new HeliosCommunicator(this.host, this.port, this.unit, this.startAddress);
-
-
-        if(channelUID.getId().equals("asdf")) {
-            // TODO: handle command
-
-            // Note: if communication with thing fails for some reason,
-            // indicate that by setting the status with detail information
-            // updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
-            // "Could not control device at IP address x.x.x.x");
+        if (getThing().getStatus() != ThingStatus.ONLINE || heliosCom == null || !heliosCom.isOnline()) {
+            logger.error("Not able to get info, connection invalid or plugin offline");
+            updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
+                    "Connect to helios failed for some reason");
+            return;
         }
-	}
+
+        if (channelUID.getId().equals(DATE)) {
+            try {
+                heliosCom.getValue(HeliosConstants.DATE);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (channelUID.getId().equals(DATE)) {
+
+        } else if (channelUID.getId().equals(DATE)) {
+
+        } else if (channelUID.getId().equals(DATE)) {
+
+        } else if (channelUID.getId().equals(DATE)) {
+
+        } else {
+            logger.error(String.format("not able to map channel %s", channelUID));
+        }
+
+    }
 
     @Override
     public void initialize() {
+        Configuration config = getThing().getConfiguration();
+        String host = (String) config.get(HeliosBindingConstants.PROPERTY_HOSTNAME);
+        host = "192.168.99.37";
 
-        this.host = this.getConfig().get(CONFIG_HOST).toString();
-        this.port = Integer.parseInt(this.getConfig().get(CONFIG_PORT).toString());
-        this.unit = Integer.parseInt(this.getConfig().get(CONFIG_UNIT).toString());
-        this.startAddress = Integer.parseInt(this.getConfig().get(CONFIG_START_ADDRESS).toString());
+        int port = ((BigDecimal) config.get(HeliosBindingConstants.PROPERTY_PORT)).intValue();
+        int unit = ((BigDecimal) config.get(HeliosBindingConstants.PROPERTY_UNIT)).intValue();
+        int startAddress = ((BigDecimal) config.get(HeliosBindingConstants.PROPERTY_START_ADRESS)).intValue();
 
-        // TODO: Initialize the thing. If done set status to ONLINE to indicate proper working.
-        // Long running initialization should be done asynchronously in background.
+        heliosCom = new HeliosCommunicator(host, port, unit, startAddress);
+
+        if (heliosCom == null || !heliosCom.isOnline() || heliosCom.getErrorMessage() != null) {
+            updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
+                    String.format("Error while connect to helios: %s", heliosCom.getErrorMessage()));
+            return;
+        }
         updateStatus(ThingStatus.ONLINE);
-
-        // Note: When initialization can NOT be done set the status with more details for further
-        // analysis. See also class ThingStatusDetail for all available status details.
-        // Add a description to give user information to understand why thing does not work
-        // as expected. E.g.
-        // updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
-        // "Can not access device as username and/or password are invalid");
     }
 }

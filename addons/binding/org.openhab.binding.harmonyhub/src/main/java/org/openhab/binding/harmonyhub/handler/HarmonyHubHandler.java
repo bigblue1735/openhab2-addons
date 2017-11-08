@@ -73,7 +73,7 @@ public class HarmonyHubHandler extends BaseBridgeHandler implements HarmonyHubLi
 
     private static final int HEARTBEAT_INTERVAL = 30;
 
-    private ScheduledExecutorService buttonExecutor;
+    private ScheduledExecutorService buttonExecutor = Executors.newSingleThreadScheduledExecutor();
 
     private List<HubStatusListener> listeners = new CopyOnWriteArrayList<HubStatusListener>();
 
@@ -124,15 +124,14 @@ public class HarmonyHubHandler extends BaseBridgeHandler implements HarmonyHubLi
 
     @Override
     public void initialize() {
-        buttonExecutor = Executors.newSingleThreadScheduledExecutor();
         cancelRetry();
         connect();
     }
 
     @Override
     public void dispose() {
-        buttonExecutor.shutdownNow();
         listeners.clear();
+        buttonExecutor.shutdownNow();
         cancelRetry();
         disconnectFromHub();
         factory.removeChannelTypesForThing(getThing().getUID());
@@ -332,16 +331,14 @@ public class HarmonyHubHandler extends BaseBridgeHandler implements HarmonyHubLi
      * @param button
      */
     public void pressButton(int device, String button) {
-        if (buttonExecutor != null && !buttonExecutor.isShutdown()) {
-            buttonExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    if (client != null) {
-                        client.pressButton(device, button);
-                    }
+        buttonExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (client != null) {
+                    client.pressButton(device, button);
                 }
-            });
-        }
+            }
+        });
     }
 
     /**
@@ -351,16 +348,14 @@ public class HarmonyHubHandler extends BaseBridgeHandler implements HarmonyHubLi
      * @param button
      */
     public void pressButton(String device, String button) {
-        if (buttonExecutor != null && !buttonExecutor.isShutdown()) {
-            buttonExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    if (client != null) {
-                        client.pressButton(device, button);
-                    }
+        buttonExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (client != null) {
+                    client.pressButton(device, button);
                 }
-            });
-        }
+            }
+        });
     }
 
     /**

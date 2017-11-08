@@ -22,9 +22,7 @@ import org.slf4j.LoggerFactory;
  * 
  */
 public class FritzAhaSetHeatingTemperatureCallback extends FritzAhaReauthCallback {
-
-    private final Logger logger = LoggerFactory.getLogger(FritzAhaSetHeatingTemperatureCallback.class);
-
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     /**
      * Item to update
      */
@@ -42,7 +40,6 @@ public class FritzAhaSetHeatingTemperatureCallback extends FritzAhaReauthCallbac
         itemName = ain;
     }
 
-    @Override
     public void execute(int status, String response) {
         super.execute(status, response);
         if (isValidRequest()) {

@@ -368,9 +368,8 @@ public class OnkyoHandler extends UpnpAudioSinkHandler implements OnkyoEventList
                     updateState(CHANNEL_MUTEZONE2, convertDeviceValueToOpenHabState(data.getValue(), OnOffType.class));
                     break;
                 case ZONE2_VOLUME:
-                    volumeLevelZone2 = handleReceivedVolume(
+                    updateState(CHANNEL_VOLUMEZONE2,
                             convertDeviceValueToOpenHabState(data.getValue(), PercentType.class));
-                    updateState(CHANNEL_VOLUMEZONE2, volumeLevelZone2);
                     break;
                 case ZONE2_SOURCE:
                     updateState(CHANNEL_INPUTZONE2,
@@ -387,9 +386,8 @@ public class OnkyoHandler extends UpnpAudioSinkHandler implements OnkyoEventList
                     updateState(CHANNEL_MUTEZONE3, convertDeviceValueToOpenHabState(data.getValue(), OnOffType.class));
                     break;
                 case ZONE3_VOLUME:
-                    volumeLevelZone3 = handleReceivedVolume(
+                    updateState(CHANNEL_VOLUMEZONE3,
                             convertDeviceValueToOpenHabState(data.getValue(), PercentType.class));
-                    updateState(CHANNEL_VOLUMEZONE3, volumeLevelZone3);
                     break;
                 case ZONE3_SOURCE:
                     updateState(CHANNEL_INPUTZONE3,

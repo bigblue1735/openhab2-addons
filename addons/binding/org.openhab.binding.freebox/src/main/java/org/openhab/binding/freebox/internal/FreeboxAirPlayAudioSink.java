@@ -22,7 +22,6 @@ import org.eclipse.smarthome.core.audio.AudioStream;
 import org.eclipse.smarthome.core.audio.FixedLengthAudioStream;
 import org.eclipse.smarthome.core.audio.URLAudioStream;
 import org.eclipse.smarthome.core.audio.UnsupportedAudioFormatException;
-import org.eclipse.smarthome.core.audio.UnsupportedAudioStreamException;
 import org.eclipse.smarthome.core.library.types.PercentType;
 import org.eclipse.smarthome.core.thing.ThingStatus;
 import org.eclipse.smarthome.core.thing.ThingStatusDetail;
@@ -50,15 +49,10 @@ public class FreeboxAirPlayAudioSink implements AudioSink {
     private static final AudioFormat MP3_256 = new AudioFormat(CONTAINER_NONE, CODEC_MP3, null, null, 256000, null);
     private static final AudioFormat MP3_320 = new AudioFormat(CONTAINER_NONE, CODEC_MP3, null, null, 320000, null);
 
-    private static final Set<AudioFormat> SUPPORTED_FORMATS = new HashSet<>();
-    private static final HashSet<Class<? extends AudioStream>> SUPPORTED_STREAMS = new HashSet<>();
+    private Set<AudioFormat> supportedFormats;
     private AudioHTTPServer audioHTTPServer;
     private FreeboxThingHandler handler;
     private String callbackUrl;
-
-    static {
-        SUPPORTED_STREAMS.add(AudioStream.class);
-    }
 
     public FreeboxAirPlayAudioSink(FreeboxThingHandler handler, AudioHTTPServer audioHTTPServer, String callbackUrl) {
         this.handler = handler;
@@ -66,21 +60,22 @@ public class FreeboxAirPlayAudioSink implements AudioSink {
         this.callbackUrl = callbackUrl;
         Boolean acceptLowBitrate = (Boolean) handler.getThing().getConfiguration()
                 .get(FreeboxAirPlayDeviceConfiguration.ACCEPT_ALL_MP3);
-        this.SUPPORTED_FORMATS.add(WAV);
+        this.supportedFormats = new HashSet<>();
+        this.supportedFormats.add(WAV);
         if (acceptLowBitrate) {
-            this.SUPPORTED_FORMATS.add(MP3);
+            this.supportedFormats.add(MP3);
         } else {
             // Only accept MP3 bitrates >= 96 kbps
-            this.SUPPORTED_FORMATS.add(MP3_96);
-            this.SUPPORTED_FORMATS.add(MP3_112);
-            this.SUPPORTED_FORMATS.add(MP3_128);
-            this.SUPPORTED_FORMATS.add(MP3_160);
-            this.SUPPORTED_FORMATS.add(MP3_192);
-            this.SUPPORTED_FORMATS.add(MP3_224);
-            this.SUPPORTED_FORMATS.add(MP3_256);
-            this.SUPPORTED_FORMATS.add(MP3_320);
+            this.supportedFormats.add(MP3_96);
+            this.supportedFormats.add(MP3_112);
+            this.supportedFormats.add(MP3_128);
+            this.supportedFormats.add(MP3_160);
+            this.supportedFormats.add(MP3_192);
+            this.supportedFormats.add(MP3_224);
+            this.supportedFormats.add(MP3_256);
+            this.supportedFormats.add(MP3_320);
         }
-        this.SUPPORTED_FORMATS.add(OGG);
+        this.supportedFormats.add(OGG);
     }
 
     @Override
@@ -94,8 +89,7 @@ public class FreeboxAirPlayAudioSink implements AudioSink {
     }
 
     @Override
-    public void process(AudioStream audioStream)
-            throws UnsupportedAudioFormatException, UnsupportedAudioStreamException {
+    public void process(AudioStream audioStream) throws UnsupportedAudioFormatException {
         if (!ThingHandlerHelper.isHandlerInitialized(handler)
                 || ((handler.getThing().getStatus() == ThingStatus.OFFLINE)
                         && ((handler.getThing().getStatusInfo().getStatusDetail() == ThingStatusDetail.BRIDGE_OFFLINE)
@@ -137,12 +131,7 @@ public class FreeboxAirPlayAudioSink implements AudioSink {
 
     @Override
     public Set<AudioFormat> getSupportedFormats() {
-        return SUPPORTED_FORMATS;
-    }
-
-    @Override
-    public Set<Class<? extends AudioStream>> getSupportedStreams() {
-        return SUPPORTED_STREAMS;
+        return supportedFormats;
     }
 
     @Override

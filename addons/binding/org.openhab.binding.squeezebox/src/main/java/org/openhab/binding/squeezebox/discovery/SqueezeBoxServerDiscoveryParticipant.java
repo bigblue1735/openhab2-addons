@@ -23,7 +23,6 @@ import org.eclipse.smarthome.core.thing.ThingTypeUID;
 import org.eclipse.smarthome.core.thing.ThingUID;
 import org.jupnp.model.meta.RemoteDevice;
 import org.openhab.binding.squeezebox.internal.utils.HttpUtils;
-import org.openhab.binding.squeezebox.internal.utils.SqueezeBoxNotAuthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +30,6 @@ import org.slf4j.LoggerFactory;
  * Discovers a SqueezeServer on the network using UPNP
  *
  * @author Dan Cunningham
- * @author Mark Hilbush - Add support for LMS authentication
  *
  */
 public class SqueezeBoxServerDiscoveryParticipant implements UpnpDiscoveryParticipant {
@@ -39,7 +37,7 @@ public class SqueezeBoxServerDiscoveryParticipant implements UpnpDiscoveryPartic
     /**
      * Name of a Squeeze Server
      */
-    private static final String MODEL_NAME = "Logitech Media Server";
+    private static String MODEL_NAME = "Logitech Media Server";
 
     private Logger logger = LoggerFactory.getLogger(SqueezeBoxServerDiscoveryParticipant.class);
 
@@ -62,11 +60,8 @@ public class SqueezeBoxServerDiscoveryParticipant implements UpnpDiscoveryPartic
 
             try {
                 cliPort = HttpUtils.getCliPort(host, webPort);
-            } catch (SqueezeBoxNotAuthorizedException e) {
-                logger.debug("Not authorized to query CLI port from Squeeze Server. Setting CLI to default of 9090");
-                cliPort = 9090;
             } catch (Exception e) {
-                logger.debug("Could not get cli port: {}", e.getMessage(), e);
+                logger.debug("Could not get cli port", e);
                 return null;
             }
 

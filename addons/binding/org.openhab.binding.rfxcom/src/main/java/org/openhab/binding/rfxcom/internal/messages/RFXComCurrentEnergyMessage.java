@@ -203,7 +203,8 @@ public class RFXComCurrentEnergyMessage extends RFXComBaseMessage {
 
     @Override
     public Object convertSubType(String subType) throws RFXComException {
-        for (SubType s : SubType.values()) {
+
+        for (RFXComBlinds1Message.SubType s : RFXComBlinds1Message.SubType.values()) {
             if (s.toString().equals(subType)) {
                 return s;
             }
@@ -211,9 +212,9 @@ public class RFXComCurrentEnergyMessage extends RFXComBaseMessage {
 
         // try to find sub type by number
         try {
-            return SubType.fromByte(Integer.parseInt(subType));
+            return RFXComBlinds1Message.SubType.fromByte(Integer.parseInt(subType));
         } catch (NumberFormatException e) {
-            throw new RFXComUnsupportedValueException(SubType.class, subType);
+            throw new RFXComException("Unknown sub type " + subType);
         }
     }
 

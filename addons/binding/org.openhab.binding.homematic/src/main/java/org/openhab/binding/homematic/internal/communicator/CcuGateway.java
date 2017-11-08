@@ -55,8 +55,8 @@ public class CcuGateway extends AbstractHomematicGateway {
     private HttpClient httpClient;
     private XStream xStream = new XStream(new StaxDriver());
 
-    protected CcuGateway(String id, HomematicConfig config, HomematicGatewayAdapter gatewayAdapter) {
-        super(id, config, gatewayAdapter);
+    protected CcuGateway(String id, HomematicConfig config, HomematicGatewayListener eventListener) {
+        super(id, config, eventListener);
 
         xStream.setClassLoader(CcuGateway.class.getClassLoader());
         xStream.autodetectAnnotations(true);

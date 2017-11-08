@@ -63,7 +63,7 @@ public class ReloadAllFromGatewayVirtualDatapointHandler extends AbstractVirtual
         dp.setValue(value);
         if (MiscUtils.isTrueValue(dp.getValue())) {
             try {
-                gateway.getGatewayAdapter().reloadAllDeviceValues();
+                gateway.getEventListener().reloadAllDeviceValues();
             } finally {
                 gateway.disableDatapoint(dp, AbstractHomematicGateway.DEFAULT_DISABLE_DELAY);
             }

@@ -17,6 +17,7 @@ import org.eclipse.smarthome.core.library.types.DecimalType;
 import org.eclipse.smarthome.core.library.types.OnOffType;
 import org.eclipse.smarthome.core.types.State;
 import org.eclipse.smarthome.core.types.Type;
+import org.eclipse.smarthome.core.types.UnDefType;
 import org.openhab.binding.rfxcom.RFXComValueSelector;
 import org.openhab.binding.rfxcom.internal.exceptions.RFXComException;
 import org.openhab.binding.rfxcom.internal.exceptions.RFXComUnsupportedValueException;
@@ -105,6 +106,8 @@ public class RFXComHomeConfortMessage extends RFXComBaseMessage {
         return super.toString()
             + ", Sub type = " + subType
             + ", Device Id = " + getDeviceId()
+            + ", House code = " + houseCode
+            + ", Unit code = " + unitCode
             + ", Command = " + command
             + ", Signal level = " + signalLevel;
     }

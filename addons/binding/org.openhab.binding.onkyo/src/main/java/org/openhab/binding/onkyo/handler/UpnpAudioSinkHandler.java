@@ -21,7 +21,6 @@ import org.eclipse.smarthome.core.audio.AudioStream;
 import org.eclipse.smarthome.core.audio.FixedLengthAudioStream;
 import org.eclipse.smarthome.core.audio.URLAudioStream;
 import org.eclipse.smarthome.core.audio.UnsupportedAudioFormatException;
-import org.eclipse.smarthome.core.audio.UnsupportedAudioStreamException;
 import org.eclipse.smarthome.core.library.types.StringType;
 import org.eclipse.smarthome.core.thing.Thing;
 import org.eclipse.smarthome.core.thing.binding.BaseThingHandler;
@@ -42,14 +41,11 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class UpnpAudioSinkHandler extends BaseThingHandler implements AudioSink, UpnpIOParticipant {
 
-    private static final HashSet<AudioFormat> SUPPORTED_FORMATS = new HashSet<>();
-    private static final HashSet<Class<? extends AudioStream>> SUPPORTED_STREAMS = new HashSet<>();
+    private static HashSet<AudioFormat> supportedFormats = new HashSet<>();
 
     static {
-        SUPPORTED_FORMATS.add(AudioFormat.WAV);
-        SUPPORTED_FORMATS.add(AudioFormat.MP3);
-
-        SUPPORTED_STREAMS.add(AudioStream.class);
+        supportedFormats.add(AudioFormat.WAV);
+        supportedFormats.add(AudioFormat.MP3);
     }
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -95,12 +91,7 @@ public abstract class UpnpAudioSinkHandler extends BaseThingHandler implements A
 
     @Override
     public Set<AudioFormat> getSupportedFormats() {
-        return SUPPORTED_FORMATS;
-    }
-
-    @Override
-    public Set<Class<? extends AudioStream>> getSupportedStreams() {
-        return SUPPORTED_STREAMS;
+        return supportedFormats;
     }
 
     private void stop() {
@@ -169,8 +160,7 @@ public abstract class UpnpAudioSinkHandler extends BaseThingHandler implements A
     }
 
     @Override
-    public void process(AudioStream audioStream)
-            throws UnsupportedAudioFormatException, UnsupportedAudioStreamException {
+    public void process(AudioStream audioStream) throws UnsupportedAudioFormatException {
         String url = null;
         if (audioStream instanceof URLAudioStream) {
             // it is an external URL, the speaker can access it itself and play it.

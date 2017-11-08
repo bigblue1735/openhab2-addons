@@ -275,12 +275,10 @@ public class RFXComBridgeHandler extends BaseBridgeHandler {
                             connector.sendMessage(RFXComMessageFactory.CMD_START_RECEIVER);
                         }
                     } else if (msg.subType == SubType.START_RECEIVER) {
-                        updateStatus(ThingStatus.ONLINE);
                         logger.debug("Start TX of any queued messages");
                         transmitQueue.send();
-                    } else {
-                        logger.debug("Interface response received: {}", msg);
-                        transmitQueue.sendNext();
+
+                        updateStatus(ThingStatus.ONLINE);
                     }
                 } else if (message instanceof RFXComTransmitterMessage) {
                     RFXComTransmitterMessage resp = (RFXComTransmitterMessage) message;

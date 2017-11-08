@@ -1,19 +1,15 @@
-/**
- * Copyright (c) 2014-2016 by the respective copyright holders.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- */
 package org.openhab.binding.helios.internal;
 
 import java.net.InetAddress;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import com.ghgande.j2mod.modbus.io.ModbusTCPTransaction;
+import com.ghgande.j2mod.modbus.io.ModbusTCPTransport;
 import com.ghgande.j2mod.modbus.msg.ReadMultipleRegistersRequest;
 import com.ghgande.j2mod.modbus.msg.ReadMultipleRegistersResponse;
 import com.ghgande.j2mod.modbus.msg.WriteMultipleRegistersRequest;
+import com.ghgande.j2mod.modbus.msg.WriteMultipleRegistersResponse;
 import com.ghgande.j2mod.modbus.net.TCPMasterConnection;
 import com.ghgande.j2mod.modbus.procimg.Register;
 import com.ghgande.j2mod.modbus.procimg.SimpleRegister;
@@ -21,97 +17,60 @@ import com.ghgande.j2mod.modbus.procimg.SimpleRegister;
 /**
  * This class is responsible for communicating with the Helios modbus.
  *
- * @author Bernhard Bauer - Initial contribution
+ * @author Bernhard Bauer
+ * @since 1.8.0
  */
 public class HeliosCommunicator {
 
-    /**
-     * Default port
-     */
-    public static final int DEFAULT_PORT = 502;
-
-    /**
-     * Default unit ID
-     */
-    public static final int DEFAULT_UNIT = 180;
-
-    /**
-     * Default start address
-     */
-    public static final int DEFAULT_START_ADDRESS = 1;
-
-    /**
-     * The host's IP address
-     */
     private String host;
-
-    /**
-     * The host's port
-     */
     private int port;
-
-    /**
-     * The hosts modbus unit ID
-     */
     private int unit;
-
-    /**
-     * The starting address
-     */
     private int startAddress;
-
-    /**
-     * The variable map
-     */
     private HeliosVariableMap vMap;
-
+    private String errorMessage;
     private TCPMasterConnection conn;
 
     /**
      * Constructor to set the member variables
+     *
      * @param host IP Address
      * @param port Port (502)
      * @param address Modbus address (180)
      * @param startAddress Start address (1)
      */
     public HeliosCommunicator(String host, int port, int unit, int startAddress) {
-        this.host = host;
-        this.port = port;
+        this.vMap = new HeliosVariableMap();
+        this.setHost(host);
+        this.setPort(port);
         this.unit = unit;
         this.startAddress = startAddress;
-        this.vMap = new HeliosVariableMap();
         try {
             this.conn = new TCPMasterConnection(InetAddress.getByName(host));
             this.conn.setPort(port);
             this.conn.connect();
-            //((ModbusTCPTransport) this.conn.getModbusTransport()).setHeadless();
+            ((ModbusTCPTransport) this.conn.getModbusTransport()).setHeadless();
         } catch (Exception e) {
-            System.err.println(e.getClass().toString());
+            System.err.println(e.toString());
+            errorMessage = new String("Error while create helios connection:" + e.toString());
         }
     }
 
     /**
-     * Constructor to set the member variables (using default values for anything but the host IP address
-     * @param host IP Address
-     */
-    public HeliosCommunicator(String host) {
-        this(host, HeliosCommunicator.DEFAULT_PORT, HeliosCommunicator.DEFAULT_UNIT, HeliosCommunicator.DEFAULT_START_ADDRESS);
-    }
-
-
-    /**
      * Sets a variable in the Helios device
+     *
      * @param variableName The variable name
      * @param value The new value
      * @return The value if the transaction succeeded, <tt>null</tt> otherwise
      * @throws HeliosException
      */
-    public String setValue(String variableName, String value) throws HeliosException {
+    public String setValue(String variableName, String value) throws Exception {
 
         HeliosVariable v = this.vMap.getVariable(variableName);
 
         // check range if applicable
-        if ((v.getAccess() == HeliosVariable.ACCESS_W) || (v.getAccess() == HeliosVariable.ACCESS_RW)) { // changing value is allowed
+        if ((v.getAccess() == HeliosVariable.ACCESS_W) || (v.getAccess() == HeliosVariable.ACCESS_RW)) { // changing
+                                                                                                         // value is
+                                                                                                         // allowed
 
             boolean inAllowedRange = false;
 
@@ -119,9 +78,11 @@ public class HeliosCommunicator {
                 if (v.getMinVal() instanceof Integer) {
                     inAllowedRange = (((Integer) v.getMinVal()).intValue() <= Integer.parseInt(value));
                     if (v.getMaxVal() instanceof Integer) {
-                        inAllowedRange = inAllowedRange && (((Integer) v.getMaxVal()).intValue() >= Integer.parseInt(value));
+                        inAllowedRange = inAllowedRange
+                                && (((Integer) v.getMaxVal()).intValue() >= Integer.parseInt(value));
                     } else { // Long
-                        inAllowedRange = inAllowedRange && (((Long) v.getMaxVal()).longValue() >= Long.parseLong(value));
+                        inAllowedRange = inAllowedRange
+                                && (((Long) v.getMaxVal()).longValue() >= Long.parseLong(value));
                     }
                 } else if (v.getMinVal() instanceof Double) {
                     inAllowedRange = (((Double) v.getMinVal()).doubleValue() <= Double.parseDouble(value))
@@ -135,7 +96,8 @@ public class HeliosCommunicator {
                 String payload = v.getVariableString() + "=" + value;
 
                 // create request
-                WriteMultipleRegistersRequest request = new WriteMultipleRegistersRequest(this.startAddress, this.preparePayload(payload));
+                WriteMultipleRegistersRequest request = new WriteMultipleRegistersRequest(this.startAddress,
+                        this.preparePayload(payload));
                 request.setUnitID(this.unit);
 
                 // communicate with modbus
@@ -150,29 +112,31 @@ public class HeliosCommunicator {
                     return value;
 
                 } catch (Exception e) {
-                    throw new HeliosException("Communication with Helios device failed");
+                    throw new Exception("Communication with Helios device failed");
                 }
             } else {
-                throw new HeliosException("Value is outside of allowed range");
+                throw new Exception("Value is outside of allowed range");
             }
         } else {
-            throw new HeliosException("Variable is read-only");
+            throw new Exception("Variable is read-only");
         }
     }
 
     /**
      * Read a variable from the Helios device
+     *
      * @param variableName The variable name
      * @return The value
      * @throws HeliosException
      */
-    public String getValue(String variableName) throws HeliosException {
+    public String getValue(String variableName) throws Exception {
 
         HeliosVariable v = this.vMap.getVariable(variableName);
         String payload = v.getVariableString();
 
         // create request 1
-        WriteMultipleRegistersRequest request1 = new WriteMultipleRegistersRequest(this.startAddress, this.preparePayload(payload));
+        WriteMultipleRegistersRequest request1 = new WriteMultipleRegistersRequest(this.startAddress,
+                this.preparePayload(payload));
         request1.setUnitID(this.unit);
 
         // create request 2
@@ -186,14 +150,16 @@ public class HeliosCommunicator {
             // send request 1
             trans.setRequest(request1);
             trans.setReconnecting(true);
+            trans.setRetries(10);
             trans.execute();
 
             // receive response
-            //WriteMultipleRegistersResponse response1 = (WriteMultipleRegistersResponse) trans.getResponse();
+            WriteMultipleRegistersResponse response1 = (WriteMultipleRegistersResponse) trans.getResponse();
 
             // send request 2
             trans.setRequest(request2);
             trans.setReconnecting(true);
+            trans.setRetries(10);
             trans.execute();
 
             // receive response
@@ -202,13 +168,13 @@ public class HeliosCommunicator {
             return value;
 
         } catch (Exception e) {
-            throw new HeliosException("Communication with Helios device failed");
+            throw new Exception("Communication with Helios device failed");
         }
     }
 
-
     /**
      * Prepares the payload for the request
+     *
      * @param payload The String representation of the payload
      * @return The Register representation of the payload
      */
@@ -222,6 +188,7 @@ public class HeliosCommunicator {
 
         Register reg[] = new Register[l];
         byte[] b = payload.getBytes();
+        byte[] temp = payload.getBytes(StandardCharsets.ISO_8859_1);
         int ch = 0;
         for (int i = 0; i < reg.length; i++) {
             byte b1 = ch < b.length ? b[ch] : (byte) 0x00; // terminate with 0x00 if at the end of the payload
@@ -235,6 +202,7 @@ public class HeliosCommunicator {
 
     /**
      * Decodes the Helios device' response and returns the actual value of the variable
+     *
      * @param response The registers received from the Helios device
      * @return The value or <tt>null</tt> if an error occurred
      */
@@ -260,5 +228,29 @@ public class HeliosCommunicator {
         } else {
             return null;
         }
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public boolean isOnline() {
+        return this.conn.isConnected();
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
     }
 }

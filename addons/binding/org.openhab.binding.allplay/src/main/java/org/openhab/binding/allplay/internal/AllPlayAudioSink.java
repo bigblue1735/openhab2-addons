@@ -19,7 +19,6 @@ import org.eclipse.smarthome.core.audio.AudioSink;
 import org.eclipse.smarthome.core.audio.AudioStream;
 import org.eclipse.smarthome.core.audio.URLAudioStream;
 import org.eclipse.smarthome.core.audio.UnsupportedAudioFormatException;
-import org.eclipse.smarthome.core.audio.UnsupportedAudioStreamException;
 import org.eclipse.smarthome.core.library.types.PercentType;
 import org.openhab.binding.allplay.handler.AllPlayHandler;
 import org.slf4j.Logger;
@@ -37,7 +36,6 @@ public class AllPlayAudioSink implements AudioSink {
     private final Logger logger = LoggerFactory.getLogger(AllPlayAudioSink.class);
 
     private static final HashSet<AudioFormat> SUPPORTED_FORMATS = new HashSet<>();
-    private static final HashSet<Class<? extends AudioStream>> SUPPORTED_STREAMS = new HashSet<>();
     private final AllPlayHandler handler;
     private final AudioHTTPServer audioHTTPServer;
     private final String callbackUrl;
@@ -45,8 +43,6 @@ public class AllPlayAudioSink implements AudioSink {
     static {
         SUPPORTED_FORMATS.add(AudioFormat.MP3);
         SUPPORTED_FORMATS.add(AudioFormat.WAV);
-
-        SUPPORTED_STREAMS.add(AudioStream.class);
     }
 
     /**
@@ -71,12 +67,11 @@ public class AllPlayAudioSink implements AudioSink {
     }
 
     @Override
-    public void process(AudioStream audioStream)
-            throws UnsupportedAudioFormatException, UnsupportedAudioStreamException {
+    public void process(AudioStream audioStream) throws UnsupportedAudioFormatException {
         try {
             String url = convertAudioStreamToUrl(audioStream);
             handler.playUrl(url);
-        } catch (SpeakerException | AllPlayCallbackException e) {
+        } catch (SpeakerException | AllPlayAudioStreamException e) {
             logger.warn("Unable to play audio stream on speaker {}", getId(), e);
         }
     }
@@ -84,11 +79,6 @@ public class AllPlayAudioSink implements AudioSink {
     @Override
     public Set<AudioFormat> getSupportedFormats() {
         return SUPPORTED_FORMATS;
-    }
-
-    @Override
-    public Set<Class<? extends AudioStream>> getSupportedStreams() {
-        return SUPPORTED_STREAMS;
     }
 
     @Override
@@ -114,9 +104,9 @@ public class AllPlayAudioSink implements AudioSink {
      *
      * @param audioStream The incoming {@link AudioStream}
      * @return The URL to use for streaming
-     * @throws AllPlayCallbackException Exception if the URL cannot be created
+     * @throws AllPlayAudioStreamException Exception if the URL cannot be created
      */
-    private String convertAudioStreamToUrl(AudioStream audioStream) throws AllPlayCallbackException {
+    private String convertAudioStreamToUrl(AudioStream audioStream) throws AllPlayAudioStreamException {
         if (audioStream instanceof URLAudioStream) {
             // it is an external URL, the speaker can access it itself and play it
             return ((URLAudioStream) audioStream).getURL();
@@ -125,19 +115,19 @@ public class AllPlayAudioSink implements AudioSink {
         }
     }
 
-    private String createUrlForLocalHttpServer(AudioStream audioStream) throws AllPlayCallbackException {
+    private String createUrlForLocalHttpServer(AudioStream audioStream) throws AllPlayAudioStreamException {
         if (callbackUrl != null) {
             String relativeUrl = audioHTTPServer.serve(audioStream);
             return callbackUrl + relativeUrl;
         } else {
-            throw new AllPlayCallbackException("Unable to play audio stream as callback URL is not set");
+            throw new AllPlayAudioStreamException("Unable to play audio stream as callback URL is not set");
         }
     }
 
     @SuppressWarnings("serial")
-    private class AllPlayCallbackException extends Exception {
+    private class AllPlayAudioStreamException extends Exception {
 
-        public AllPlayCallbackException(String message) {
+        public AllPlayAudioStreamException(String message) {
             super(message);
         }
     }

@@ -9,9 +9,9 @@
 package org.openhab.binding.rfxcom.internal.connector;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 public class RFXComTcpConnector extends RFXComBaseConnector {
     private final Logger logger = LoggerFactory.getLogger(RFXComTcpConnector.class);
 
+    private InputStream in;
     private OutputStream out;
     private Socket socket;
 
@@ -47,7 +48,7 @@ public class RFXComTcpConnector extends RFXComBaseConnector {
             in.reset();
         }
 
-        readerThread = new RFXComStreamReader(this);
+        readerThread = new RFXComStreamReader(this, in);
         readerThread.start();
     }
 
@@ -60,8 +61,7 @@ public class RFXComTcpConnector extends RFXComBaseConnector {
             readerThread.interrupt();
             try {
                 readerThread.join();
-            } catch (InterruptedException e) {
-            }
+            } catch (InterruptedException e) {}
         }
 
         if (out != null) {
@@ -91,15 +91,5 @@ public class RFXComTcpConnector extends RFXComBaseConnector {
         logger.trace("Send data (len={}): {}", data.length, DatatypeConverter.printHexBinary(data));
         out.write(data);
         out.flush();
-    }
-
-    @Override
-    int read(byte[] buffer, int offset, int length) throws IOException {
-        try {
-            return super.read(buffer, offset, length);
-        } catch (SocketTimeoutException ignore) {
-            // ignore this exception, instead return 0 to behave like the serial read
-            return 0;
-        }
     }
 }
