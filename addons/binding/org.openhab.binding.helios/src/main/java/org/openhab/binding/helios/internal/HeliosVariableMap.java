@@ -1,3 +1,12 @@
+/**
+ * Copyright (c) 2010-2017 by the respective copyright holders.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
+
 package org.openhab.binding.helios.internal;
 
 import java.util.Collections;
@@ -29,34 +38,29 @@ public class HeliosVariableMap {
         String[] descriptions;
         this.vMap = new HashMap<String, HeliosVariable>();
 
-        this.vMap.put(HeliosConstants.ARTICLE_DESCRIPTION,
+        this.vMap.put("article_description",
                 new HeliosVariable(0, HeliosVariable.ACCESS_RW, 31, 20, HeliosVariable.TYPE_STRING));
-        this.vMap.put(HeliosConstants.REF_NO,
-                new HeliosVariable(1, HeliosVariable.ACCESS_RW, 16, 12, HeliosVariable.TYPE_STRING));
-        this.vMap.put(HeliosConstants.MAC_ADDRESS,
+        this.vMap.put("ref_no", new HeliosVariable(1, HeliosVariable.ACCESS_RW, 16, 12, HeliosVariable.TYPE_STRING));
+        this.vMap.put("mac_address",
                 new HeliosVariable(2, HeliosVariable.ACCESS_R, 18, 13, HeliosVariable.TYPE_STRING));
-        this.vMap.put(HeliosConstants.LANGUAGE,
-                new HeliosVariable(3, HeliosVariable.ACCESS_RW, 2, 5, HeliosVariable.TYPE_STRING));
-        this.vMap.put(HeliosConstants.DATE,
-                new HeliosVariable(4, HeliosVariable.ACCESS_RW, 10, 9, HeliosVariable.TYPE_STRING));
-        this.vMap.put(HeliosConstants.TIME,
-                new HeliosVariable(5, HeliosVariable.ACCESS_RW, 10, 9, HeliosVariable.TYPE_STRING));
-        this.vMap.put(HeliosConstants.SUMMER_WINTER,
+        this.vMap.put("language", new HeliosVariable(3, HeliosVariable.ACCESS_RW, 2, 5, HeliosVariable.TYPE_STRING));
+        this.vMap.put("date", new HeliosVariable(4, HeliosVariable.ACCESS_RW, 10, 9, HeliosVariable.TYPE_STRING));
+        this.vMap.put("time", new HeliosVariable(5, HeliosVariable.ACCESS_RW, 10, 9, HeliosVariable.TYPE_STRING));
+        this.vMap.put("summer_winter",
                 new HeliosVariable(6, HeliosVariable.ACCESS_RW, 1, 5, HeliosVariable.TYPE_INTEGER));
-        this.vMap.put(HeliosConstants.AUTO_SW_UPDATE,
+        this.vMap.put("auto_sw_update",
                 new HeliosVariable(7, HeliosVariable.ACCESS_RW, 1, 5, HeliosVariable.TYPE_INTEGER));
-        this.vMap.put(HeliosConstants.ACCESS_HELIOS_PORTAL,
+        this.vMap.put("access_helios_portal",
                 new HeliosVariable(8, HeliosVariable.ACCESS_RW, 1, 5, HeliosVariable.TYPE_INTEGER));
 
-        descriptions = new String[] { HeliosConstants.VOLT_FAN_S1_EA, HeliosConstants.VOLT_FAN_S1_SA,
-                HeliosConstants.VOLT_FAN_S2_EA, HeliosConstants.VOLT_FAN_S2_SA, HeliosConstants.VOLT_FAN_S3_EA,
-                HeliosConstants.VOLT_FAN_S3_SA, HeliosConstants.VOLT_FAN_S4_EA, HeliosConstants.VOLT_FAN_S4_SA };
+        descriptions = new String[] { "volt_fan_s1_ea", "volt_fan_s1_sa", "volt_fan_s2_ea", "volt_fan_s2_sa",
+                "volt_fan_s3_ea", "volt_fan_s3_sa", "volt_fan_s4_ea", "volt_fan_s4_sa" };
         for (int i = 12; i <= 19; i++) {
             this.vMap.put(descriptions[i - 12],
                     new HeliosVariable(i, HeliosVariable.ACCESS_RW, 3, 6, HeliosVariable.TYPE_FLOAT, 1.6, 10.0));
         }
 
-        this.vMap.put(HeliosConstants.MIN_FAN_STAGE,
+        this.vMap.put("min_fan_stage",
                 new HeliosVariable(20, HeliosVariable.ACCESS_RW, 1, 5, HeliosVariable.TYPE_INTEGER, 0, 1));
         this.vMap.put("kwl_be",
                 new HeliosVariable(21, HeliosVariable.ACCESS_RW, 1, 5, HeliosVariable.TYPE_INTEGER, 0, 1));
@@ -229,6 +233,20 @@ public class HeliosVariableMap {
         for (int i = 1061; i <= 1065; i++) {
             this.vMap.put("fan_stages_stepped_range" + stage + "-" + (stage + 2),
                     new HeliosVariable(i, HeliosVariable.ACCESS_RW, 1, 5, HeliosVariable.TYPE_INTEGER, 0, 2)); // range
+                                                                                                               // for
+                                                                                                               // values
+                                                                                                               // might
+                                                                                                               // be
+                                                                                                               // different
+                                                                                                               // -
+                                                                                                               // there
+                                                                                                               // seems
+                                                                                                               // to be
+                                                                                                               // a
+                                                                                                               // mistake
+                                                                                                               // in the
+                                                                                                               // Helios
+                                                                                                               // document
             stage = stage + 2;
         }
 
@@ -238,7 +256,7 @@ public class HeliosVariableMap {
                 new HeliosVariable(1068, HeliosVariable.ACCESS_RW, 1, 5, HeliosVariable.TYPE_INTEGER, 0, 1));
 
         for (int i = 1071; i <= 1078; i++) {
-            this.vMap.put("sensor_name_humidity+temp" + (i - 1070),
+            this.vMap.put("sensor_name_humidity_temp" + (i - 1070),
                     new HeliosVariable(i, HeliosVariable.ACCESS_RW, 15, 12, HeliosVariable.TYPE_STRING));
         }
         for (int i = 1081; i <= 1088; i++) {
@@ -313,6 +331,7 @@ public class HeliosVariableMap {
         return this.vMap.get(variableName);
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     private Map getSortedMap() {
         List list = new LinkedList(this.vMap.entrySet());
         Collections.sort(list, new Comparator() {
@@ -330,60 +349,107 @@ public class HeliosVariableMap {
         return sortedMap;
     }
 
+    @SuppressWarnings("unchecked")
+    public String getThingXmlConfig() {
+        StringBuffer returnBuffer = new StringBuffer();
+        for (Map.Entry<String, HeliosVariable> e : ((Map<String, HeliosVariable>) this.getSortedMap()).entrySet()) {
+            StringBuffer tempBuffer = new StringBuffer();
+            tempBuffer.append("<channel id=\"");
+            tempBuffer.append(e.getKey());
+            tempBuffer.append("\"");
+            tempBuffer.append(" typeId=\"");
+            tempBuffer.append(e.getKey());
+            tempBuffer.append("-channel");
+            tempBuffer.append("\"/>");
+            tempBuffer.append("\n");
+            returnBuffer.append(tempBuffer.toString());
+        }
+        return returnBuffer.toString();
+    }
+
+    public String getThing2Config() {
+        StringBuffer returnBuffer = new StringBuffer();
+        for (Map.Entry<String, HeliosVariable> e : ((Map<String, HeliosVariable>) this.getSortedMap()).entrySet()) {
+            StringBuffer tempBuffer = new StringBuffer();
+            tempBuffer.append("<channel-type id=\"");
+            tempBuffer.append(e.getKey());
+            tempBuffer.append("-channel");
+            tempBuffer.append("\">\n");
+            tempBuffer.append("<item-type>String</item-type>\n");
+            tempBuffer.append("<label>");
+            tempBuffer.append(e.getKey().replace("+", "_").toUpperCase());
+            tempBuffer.append("</label>\n");
+            tempBuffer.append("<description>");
+            tempBuffer.append("The ");
+            tempBuffer.append(e.getKey().replace("+", "_").toUpperCase());
+            tempBuffer.append(" value of the helios system");
+            tempBuffer.append("</description>\n");
+            tempBuffer.append("<category>Text</category>\n");
+            tempBuffer.append("<state readOnly=\"true\" />\n");
+            tempBuffer.append("</channel-type>");
+            tempBuffer.append("\n\n");
+            returnBuffer.append(tempBuffer.toString());
+        }
+        return returnBuffer.toString();
+
+    }
+
     /**
      * Returns an HTML formatted list of variables
      *
      * @return The HTML table
      */
+    @SuppressWarnings("unchecked")
     public String getHtmlList() {
-        String html = new String();
-        html += "<table class=\"helios\">";
-        html += "<tr>";
-        html += "<th>Description</th>";
-        html += "<th>Access</th>";
-        html += "<th>Type</th>";
-        html += "<th>Count</th>";
-        html += "<th>Variable</th>";
-        html += "<th>Min Value</th>";
-        html += "<th>Max Value</th>";
-        html += "</tr>";
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("<table class=\"helios\">");
+        stringBuffer.append("<tr>");
+        stringBuffer.append("<th>Description</th>");
+        stringBuffer.append("<th>Access</th>");
+        stringBuffer.append("<th>Type</th>");
+        stringBuffer.append("<th>Count</th>");
+        stringBuffer.append("<th>Variable</th>");
+        stringBuffer.append("<th>Min Value</th>");
+        stringBuffer.append("<th>Max Value</th>");
+        stringBuffer.append("</tr>");
         int i = 0;
         for (Map.Entry<String, HeliosVariable> e : ((Map<String, HeliosVariable>) this.getSortedMap()).entrySet()) {
-            html += "<tr class=\"" + (i % 2 == 0 ? "even" : "odd") + "\">";
+            stringBuffer.append("<tr class=\"" + (i % 2 == 0 ? "even" : "odd") + "\">");
             // description
-            html += "<td>" + e.getKey() + "</td>";
+            stringBuffer.append("<td>" + e.getKey() + "</td>");
 
             HeliosVariable v = e.getValue();
             // Access
-            html += "<td>";
+            stringBuffer.append("<td>");
             switch (v.getAccess()) {
                 case HeliosVariable.ACCESS_R:
-                    html += "R";
+                    stringBuffer.append("R");
                     break;
                 case HeliosVariable.ACCESS_W:
-                    html += "W";
+                    stringBuffer.append("W");
                     break;
                 case HeliosVariable.ACCESS_RW:
-                    html += "RW";
+                    stringBuffer.append("RW");
                     break;
                 default:
-                    html += "N/A";
+                    stringBuffer.append("N/A");
                     break;
             }
-            html += "</td>";
+            stringBuffer.append("</td>");
             // Type
-            html += "<td>Char[" + v.getLength() + "]</td>";
+            stringBuffer.append("<td>Char[" + v.getLength() + "]</td>");
             // Count
-            html += "<td>" + v.getCount() + "</td>";
+            stringBuffer.append("<td>" + v.getCount() + "</td>");
             // Variable
-            html += "<td>" + v.getVariableString() + "</td>";
+            stringBuffer.append("<td>" + v.getVariableString() + "</td>");
             // Min Value
-            html += "<td>" + (v.getMinVal() == null ? "-" : v.getMinVal()) + "</td>";
+            stringBuffer.append("<td>" + (v.getMinVal() == null ? "-" : v.getMinVal()) + "</td>");
             // Max Value
-            html += "<td>" + (v.getMaxVal() == null ? "-" : v.getMaxVal()) + "</td>";
-            html += "</tr>";
+            stringBuffer.append("<td>" + (v.getMaxVal() == null ? "-" : v.getMaxVal()) + "</td>");
+            stringBuffer.append("</tr>");
         }
-        html += "</table>";
-        return html;
+        stringBuffer.append("</table>");
+
+        return stringBuffer.toString();
     }
 }

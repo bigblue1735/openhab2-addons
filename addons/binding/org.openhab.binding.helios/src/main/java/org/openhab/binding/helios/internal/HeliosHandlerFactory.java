@@ -8,16 +8,16 @@
  */
 package org.openhab.binding.helios.internal;
 
-import static org.openhab.binding.helios.HeliosBindingConstants.*;
+import static org.openhab.binding.helios.HeliosBindingConstants.THING_TYPE_SAMPLE;
 
 import java.util.Collections;
 import java.util.Set;
 
-import org.openhab.binding.helios.handler.HeliosHandler;
 import org.eclipse.smarthome.core.thing.Thing;
 import org.eclipse.smarthome.core.thing.ThingTypeUID;
 import org.eclipse.smarthome.core.thing.binding.BaseThingHandlerFactory;
 import org.eclipse.smarthome.core.thing.binding.ThingHandler;
+import org.openhab.binding.helios.handler.HeliosHandler;
 
 /**
  * The {@link HeliosHandlerFactory} is responsible for creating things and thing

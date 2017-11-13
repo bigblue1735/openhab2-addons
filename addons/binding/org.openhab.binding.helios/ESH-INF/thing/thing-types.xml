@@ -1,138 +1,1673 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<thing:thing-descriptions bindingId="helios"
-						  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-						  xmlns:thing="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0"
-						  xsi:schemaLocation="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0 http://eclipse.org/smarthome/schemas/thing-description-1.0.0.xsd">
+<thing:thing-descriptions bindingId="helios" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0 http://eclipse.org/smarthome/schemas/thing-description-1.0.0.xsd">
 
 	<!-- Sample Thing Type -->
-	<thing-type id="sample">
+	<thing-type id="helios">
 		<label>Helios Binding Thing</label>
 		<description>Sample thing for Helios Binding</description>
 
 		<channels>
-			<channel id="channel1" typeId="sample-channel"/>
-			<channel id="articleDesc" typeId="articleDesc-channel"/>
-			<channel id="refNo" typeId="refNo-channel"/>
-			<channel id="macAdress" typeId="macAdress-channel"/>
-			<channel id="language" typeId="language-channel"/>
-			<channel id="date" typeId="date-channel"/>
-			<channel id="dateTime" typeId="dateTime-channel"/>
-			<channel id="summerWinter" typeId="summerWinter-channel"/>
+			<channel id="article_description" typeId="article_description-channel" />
+			<channel id="ref_no" typeId="ref_no-channel" />
+			<channel id="mac_address" typeId="mac_address-channel" />
+			<channel id="language" typeId="language-channel" />
+			<channel id="date" typeId="date-channel" />
+			<channel id="time" typeId="time-channel" />
+			<channel id="summer_winter" typeId="summer_winter-channel" />
+			<channel id="auto_sw_update" typeId="auto_sw_update-channel" />
+			<channel id="access_helios_portal" typeId="access_helios_portal-channel" />
+			<channel id="volt_fan_s1_ea" typeId="volt_fan_s1_ea-channel" />
+			<channel id="volt_fan_s1_sa" typeId="volt_fan_s1_sa-channel" />
+			<channel id="volt_fan_s2_ea" typeId="volt_fan_s2_ea-channel" />
+			<channel id="volt_fan_s2_sa" typeId="volt_fan_s2_sa-channel" />
+			<channel id="volt_fan_s3_ea" typeId="volt_fan_s3_ea-channel" />
+			<channel id="volt_fan_s3_sa" typeId="volt_fan_s3_sa-channel" />
+			<channel id="volt_fan_s4_ea" typeId="volt_fan_s4_ea-channel" />
+			<channel id="volt_fan_s4_sa" typeId="volt_fan_s4_sa-channel" />
+			<channel id="min_fan_stage" typeId="min_fan_stage-channel" />
+			<channel id="kwl_be" typeId="kwl_be-channel" />
+			<channel id="kwl_bec" typeId="kwl_bec-channel" />
+			<channel id="unit_config" typeId="unit_config-channel" />
+			<channel id="pre-heater_status" typeId="pre-heater_status-channel" />
+			<channel id="kwl_ftf_config0" typeId="kwl_ftf_config0-channel" />
+			<channel id="kwl_ftf_config1" typeId="kwl_ftf_config1-channel" />
+			<channel id="kwl_ftf_config2" typeId="kwl_ftf_config2-channel" />
+			<channel id="kwl_ftf_config3" typeId="kwl_ftf_config3-channel" />
+			<channel id="kwl_ftf_config4" typeId="kwl_ftf_config4-channel" />
+			<channel id="kwl_ftf_config5" typeId="kwl_ftf_config5-channel" />
+			<channel id="kwl_ftf_config6" typeId="kwl_ftf_config6-channel" />
+			<channel id="kwl_ftf_config7" typeId="kwl_ftf_config7-channel" />
+			<channel id="humidity_control_status" typeId="humidity_control_status-channel" />
+			<channel id="humidity_control_set_value" typeId="humidity_control_set_value-channel" />
+			<channel id="humidity_control_steps" typeId="humidity_control_steps-channel" />
+			<channel id="humidity_control_stop_time" typeId="humidity_control_stop_time-channel" />
+			<channel id="co2_control_status" typeId="co2_control_status-channel" />
+			<channel id="co2_control_set_value" typeId="co2_control_set_value-channel" />
+			<channel id="co2_control_steps" typeId="co2_control_steps-channel" />
+			<channel id="voc_control_status" typeId="voc_control_status-channel" />
+			<channel id="voc_control_set_value" typeId="voc_control_set_value-channel" />
+			<channel id="voc_control_steps" typeId="voc_control_steps-channel" />
+			<channel id="comfort_temp" typeId="comfort_temp-channel" />
+			<channel id="time_zone_diff_to_gmt" typeId="time_zone_diff_to_gmt-channel" />
+			<channel id="date_format" typeId="date_format-channel" />
+			<channel id="heat_exchanger_type" typeId="heat_exchanger_type-channel" />
+			<channel id="party-mode_duration" typeId="party-mode_duration-channel" />
+			<channel id="party-mode_fan_stage" typeId="party-mode_fan_stage-channel" />
+			<channel id="party-mode_remaining_time" typeId="party-mode_remaining_time-channel" />
+			<channel id="party-mode" typeId="party-mode-channel" />
+			<channel id="standby-mode_duration" typeId="standby-mode_duration-channel" />
+			<channel id="standby-mode_fan_stage" typeId="standby-mode_fan_stage-channel" />
+			<channel id="standby-mode_remaining_time" typeId="standby-mode_remaining_time-channel" />
+			<channel id="standby-mode" typeId="standby-mode-channel" />
+			<channel id="operating_mode" typeId="operating_mode-channel" />
+			<channel id="fan_stage" typeId="fan_stage-channel" />
+			<channel id="percentage_fan_stage" typeId="percentage_fan_stage-channel" />
+			<channel id="temperature_outside_air" typeId="temperature_outside_air-channel" />
+			<channel id="temperature_supply_air" typeId="temperature_supply_air-channel" />
+			<channel id="temperature_outgoing_air" typeId="temperature_outgoing_air-channel" />
+			<channel id="temperature_extract_air" typeId="temperature_extract_air-channel" />
+			<channel id="vhz_duct_sensor" typeId="vhz_duct_sensor-channel" />
+			<channel id="nhz_return_sensor" typeId="nhz_return_sensor-channel" />
+			<channel id="ext_sensor_kwl-ftf_humid_1" typeId="ext_sensor_kwl-ftf_humid_1-channel" />
+			<channel id="ext_sensor_kwl-ftf_humid_2" typeId="ext_sensor_kwl-ftf_humid_2-channel" />
+			<channel id="ext_sensor_kwl-ftf_humid_3" typeId="ext_sensor_kwl-ftf_humid_3-channel" />
+			<channel id="ext_sensor_kwl-ftf_humid_4" typeId="ext_sensor_kwl-ftf_humid_4-channel" />
+			<channel id="ext_sensor_kwl-ftf_humid_5" typeId="ext_sensor_kwl-ftf_humid_5-channel" />
+			<channel id="ext_sensor_kwl-ftf_humid_6" typeId="ext_sensor_kwl-ftf_humid_6-channel" />
+			<channel id="ext_sensor_kwl-ftf_humid_7" typeId="ext_sensor_kwl-ftf_humid_7-channel" />
+			<channel id="ext_sensor_kwl-ftf_humid_8" typeId="ext_sensor_kwl-ftf_humid_8-channel" />
+			<channel id="ext_sensor_kwl-ftf_temp_1" typeId="ext_sensor_kwl-ftf_temp_1-channel" />
+			<channel id="ext_sensor_kwl-ftf_temp_2" typeId="ext_sensor_kwl-ftf_temp_2-channel" />
+			<channel id="ext_sensor_kwl-ftf_temp_3" typeId="ext_sensor_kwl-ftf_temp_3-channel" />
+			<channel id="ext_sensor_kwl-ftf_temp_4" typeId="ext_sensor_kwl-ftf_temp_4-channel" />
+			<channel id="ext_sensor_kwl-ftf_temp_5" typeId="ext_sensor_kwl-ftf_temp_5-channel" />
+			<channel id="ext_sensor_kwl-ftf_temp_6" typeId="ext_sensor_kwl-ftf_temp_6-channel" />
+			<channel id="ext_sensor_kwl-ftf_temp_7" typeId="ext_sensor_kwl-ftf_temp_7-channel" />
+			<channel id="ext_sensor_kwl-ftf_temp_8" typeId="ext_sensor_kwl-ftf_temp_8-channel" />
+			<channel id="ext_sensor_kwl-co2_1" typeId="ext_sensor_kwl-co2_1-channel" />
+			<channel id="ext_sensor_kwl-co2_2" typeId="ext_sensor_kwl-co2_2-channel" />
+			<channel id="ext_sensor_kwl-co2_3" typeId="ext_sensor_kwl-co2_3-channel" />
+			<channel id="ext_sensor_kwl-co2_4" typeId="ext_sensor_kwl-co2_4-channel" />
+			<channel id="ext_sensor_kwl-co2_5" typeId="ext_sensor_kwl-co2_5-channel" />
+			<channel id="ext_sensor_kwl-co2_6" typeId="ext_sensor_kwl-co2_6-channel" />
+			<channel id="ext_sensor_kwl-co2_7" typeId="ext_sensor_kwl-co2_7-channel" />
+			<channel id="ext_sensor_kwl-co2_8" typeId="ext_sensor_kwl-co2_8-channel" />
+			<channel id="ext_sensor_kwl-voc_1" typeId="ext_sensor_kwl-voc_1-channel" />
+			<channel id="ext_sensor_kwl-voc_2" typeId="ext_sensor_kwl-voc_2-channel" />
+			<channel id="ext_sensor_kwl-voc_3" typeId="ext_sensor_kwl-voc_3-channel" />
+			<channel id="ext_sensor_kwl-voc_4" typeId="ext_sensor_kwl-voc_4-channel" />
+			<channel id="ext_sensor_kwl-voc_5" typeId="ext_sensor_kwl-voc_5-channel" />
+			<channel id="ext_sensor_kwl-voc_6" typeId="ext_sensor_kwl-voc_6-channel" />
+			<channel id="ext_sensor_kwl-voc_7" typeId="ext_sensor_kwl-voc_7-channel" />
+			<channel id="ext_sensor_kwl-voc_8" typeId="ext_sensor_kwl-voc_8-channel" />
+			<channel id="nhz_duct_sensor" typeId="nhz_duct_sensor-channel" />
+			<channel id="week_profile_nhz" typeId="week_profile_nhz-channel" />
+			<channel id="ser_no" typeId="ser_no-channel" />
+			<channel id="prod_code" typeId="prod_code-channel" />
+			<channel id="supply_air_rpm" typeId="supply_air_rpm-channel" />
+			<channel id="extract_air_rpm" typeId="extract_air_rpm-channel" />
+			<channel id="logout" typeId="logout-channel" />
+			<channel id="holiday_programme" typeId="holiday_programme-channel" />
+			<channel id="holiday_programme_fan_stage" typeId="holiday_programme_fan_stage-channel" />
+			<channel id="holiday_programme_start" typeId="holiday_programme_start-channel" />
+			<channel id="holiday_programme_end" typeId="holiday_programme_end-channel" />
+			<channel id="holiday_programme_interval" typeId="holiday_programme_interval-channel" />
+			<channel id="holiday_programme_activation_time" typeId="holiday_programme_activation_time-channel" />
+			<channel id="vhz_type" typeId="vhz_type-channel" />
+			<channel id="function_type_kwl-em" typeId="function_type_kwl-em-channel" />
+			<channel id="run-on_time_vhz_nhz" typeId="run-on_time_vhz_nhz-channel" />
+			<channel id="external_contact" typeId="external_contact-channel" />
+			<channel id="error_output_function" typeId="error_output_function-channel" />
+			<channel id="filter_change" typeId="filter_change-channel" />
+			<channel id="filter_change_interval" typeId="filter_change_interval-channel" />
+			<channel id="filter_change_remaining_time" typeId="filter_change_remaining_time-channel" />
+			<channel id="bypass_room_temp" typeId="bypass_room_temp-channel" />
+			<channel id="bypass_min_outside_temp" typeId="bypass_min_outside_temp-channel" />
+			<channel id="factory_setting_wzu" typeId="factory_setting_wzu-channel" />
+			<channel id="factory_reset" typeId="factory_reset-channel" />
+			<channel id="supply_air_fan_stage" typeId="supply_air_fan_stage-channel" />
+			<channel id="extract_air_fan_stage" typeId="extract_air_fan_stage-channel" />
+			<channel id="fan_stages_stepped_range0-2" typeId="fan_stages_stepped_range0-2-channel" />
+			<channel id="fan_stages_stepped_range2-4" typeId="fan_stages_stepped_range2-4-channel" />
+			<channel id="fan_stages_stepped_range4-6" typeId="fan_stages_stepped_range4-6-channel" />
+			<channel id="fan_stages_stepped_range6-8" typeId="fan_stages_stepped_range6-8-channel" />
+			<channel id="fan_stages_stepped_range8-10" typeId="fan_stages_stepped_range8-10-channel" />
+			<channel id="offset_extract_air" typeId="offset_extract_air-channel" />
+			<channel id="fan_stages_stepped_vs_1-10v" typeId="fan_stages_stepped_vs_1-10v-channel" />
+			<channel id="sensor_name_humidity_temp1" typeId="sensor_name_humidity_temp1-channel" />
+			<channel id="sensor_name_humidity_temp2" typeId="sensor_name_humidity_temp2-channel" />
+			<channel id="sensor_name_humidity_temp3" typeId="sensor_name_humidity_temp3-channel" />
+			<channel id="sensor_name_humidity_temp4" typeId="sensor_name_humidity_temp4-channel" />
+			<channel id="sensor_name_humidity_temp5" typeId="sensor_name_humidity_temp5-channel" />
+			<channel id="sensor_name_humidity_temp6" typeId="sensor_name_humidity_temp6-channel" />
+			<channel id="sensor_name_humidity_temp7" typeId="sensor_name_humidity_temp7-channel" />
+			<channel id="sensor_name_humidity_temp8" typeId="sensor_name_humidity_temp8-channel" />
+			<channel id="sensor_name_co21" typeId="sensor_name_co21-channel" />
+			<channel id="sensor_name_co22" typeId="sensor_name_co22-channel" />
+			<channel id="sensor_name_co23" typeId="sensor_name_co23-channel" />
+			<channel id="sensor_name_co24" typeId="sensor_name_co24-channel" />
+			<channel id="sensor_name_co25" typeId="sensor_name_co25-channel" />
+			<channel id="sensor_name_co26" typeId="sensor_name_co26-channel" />
+			<channel id="sensor_name_co27" typeId="sensor_name_co27-channel" />
+			<channel id="sensor_name_co28" typeId="sensor_name_co28-channel" />
+			<channel id="sensor_name_voc1" typeId="sensor_name_voc1-channel" />
+			<channel id="sensor_name_voc2" typeId="sensor_name_voc2-channel" />
+			<channel id="sensor_name_voc3" typeId="sensor_name_voc3-channel" />
+			<channel id="sensor_name_voc4" typeId="sensor_name_voc4-channel" />
+			<channel id="sensor_name_voc5" typeId="sensor_name_voc5-channel" />
+			<channel id="sensor_name_voc6" typeId="sensor_name_voc6-channel" />
+			<channel id="sensor_name_voc7" typeId="sensor_name_voc7-channel" />
+			<channel id="sensor_name_voc8" typeId="sensor_name_voc8-channel" />
+			<channel id="sw_version" typeId="sw_version-channel" />
+			<channel id="operating_hours_supply_air_vent" typeId="operating_hours_supply_air_vent-channel" />
+			<channel id="operating_hours_extract_air_vent" typeId="operating_hours_extract_air_vent-channel" />
+			<channel id="operating_hours_vhz" typeId="operating_hours_vhz-channel" />
+			<channel id="operating_hours_nhz" typeId="operating_hours_nhz-channel" />
+			<channel id="output_power_vhz_percent" typeId="output_power_vhz_percent-channel" />
+			<channel id="output_power_nhz_percent" typeId="output_power_nhz_percent-channel" />
+			<channel id="reset_flag" typeId="reset_flag-channel" />
+			<channel id="errors" typeId="errors-channel" />
+			<channel id="warnings" typeId="warnings-channel" />
+			<channel id="infos" typeId="infos-channel" />
+			<channel id="number_of_errors" typeId="number_of_errors-channel" />
+			<channel id="number_of_warnings" typeId="number_of_warnings-channel" />
+			<channel id="number_of_infos" typeId="number_of_infos-channel" />
+			<channel id="errors_string" typeId="errors_string-channel" />
+			<channel id="warnings_string" typeId="warnings_string-channel" />
+			<channel id="infos_string" typeId="infos_string-channel" />
+			<channel id="status_flags" typeId="status_flags-channel" />
+			<channel id="global_manual_web-update" typeId="global_manual_web-update-channel" />
+			<channel id="portal_latest_error" typeId="portal_latest_error-channel" />
+			<channel id="clear_error" typeId="clear_error-channel" />
+			<channel id="kw_ftf_config1" typeId="kw_ftf_config1-channel" />
+			<channel id="kw_ftf_config2" typeId="kw_ftf_config2-channel" />
+			<channel id="kw_ftf_config3" typeId="kw_ftf_config3-channel" />
+			<channel id="kw_ftf_config4" typeId="kw_ftf_config4-channel" />
+			<channel id="kw_ftf_config5" typeId="kw_ftf_config5-channel" />
+			<channel id="kw_ftf_config6" typeId="kw_ftf_config6-channel" />
+			<channel id="kw_ftf_config7" typeId="kw_ftf_config7-channel" />
+			<channel id="kw_ftf_config8" typeId="kw_ftf_config8-channel" />
 		</channels>
-		
+
 		<config-description>
-            <parameter name="hostname" type="text" required="true">
-                <context>network_address</context>
-                <label>Hostname</label>
-                <description>The hostname of the Helios Device.</description>
-                <default>192.168.x.x</default>
-            </parameter>
-            <parameter name="refreshInterval" type="integer" required="true">
-                <label>Refresh interval</label>
-                <description>
+			<parameter name="hostname" type="text" required="true">
+				<context>network_address</context>
+				<label>Hostname</label>
+				<description>The hostname of the Helios Device.</description>
+				<default>192.168.x.x</default>
+			</parameter>
+			<parameter name="refreshInterval" type="integer" required="true">
+				<label>Refresh interval</label>
+				<description>
                     Refresh interval of Messages
                 </description>
-                <default>60000</default>
-            </parameter>
-            <parameter name="port" type="integer" required="true">
-                <label>Port</label>
-                <description>
+				<default>60000</default>
+			</parameter>
+			<parameter name="port" type="integer" required="true">
+				<label>Port</label>
+				<description>
                     Port of Connection
                 </description>
-                <default>502</default>
-            </parameter>
-            <parameter name="unit" type="integer" required="true">
-                <label>Unit</label>
-                <description>
+				<default>502</default>
+			</parameter>
+			<parameter name="unit" type="integer" required="true">
+				<label>Unit</label>
+				<description>
                     Unit
                 </description>
-                <default>180</default>
-            </parameter>
-            <parameter name="startAdress" type="integer" required="true">
-                <label>StartAdress</label>
-                <description>
+				<default>180</default>
+			</parameter>
+			<parameter name="startAdress" type="integer" required="true">
+				<label>StartAdress</label>
+				<description>
                     StartAdress of helios setting
                 </description>
-                <default>1</default>
-            </parameter>
-        </config-description>
+				<default>1</default>
+			</parameter>
+		</config-description>
 	</thing-type>
 
 	<!-- Sample Channel Type -->
-	<channel-type id="sample-channel">
-		<item-type>Switch</item-type>
-		<label>test by Allex</label>
-		<description>Sample channel for Helios Binding</description>
+	<channel-type id="article_description-channel">
+		<item-type>String</item-type>
+		<label>ARTICLE_DESCRIPTION</label>
+		<description>The ARTICLE_DESCRIPTION value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
 	</channel-type>
-	
-	<channel-type id="articleDesc-channel">
-        <item-type>String</item-type>
-        <label>Article description</label>
-        <description>The description of the helios system</description>
-        <category>Text</category>
-        <state readOnly="true" />
-<!--         <config-description>
-            <parameter name="DateTimeFormat" type="text" required="false">
-                <label>Date Time Format</label>
-                <description>Formattting of the date &amp; time.</description>
-                <default>yyyy-MM-dd HH:mm:ss z</default>
-            </parameter>
-        </config-description>
-         -->
-    </channel-type>
-    <channel-type id="refNo-channel">
-        <item-type>String</item-type>
-        <label>RefNo</label>
-        <description>The reference number of the helios system</description>
-        <category>Text</category>
-        <state readOnly="true" />
-    </channel-type>
-    
-    <channel-type id="macAdress-channel">
-        <item-type>String</item-type>
-        <label>MAC-Adress</label>
-        <description>The mac adress of the helios system</description>
-        <category>Text</category>
-        <state readOnly="true" />
-    </channel-type>
-    
-    <channel-type id="language-channel">
-        <item-type>String</item-type>
-        <label>Language</label>
-        <description>The language of the helios system</description>
-        <category>Text</category>
-        <state readOnly="true" />
-    </channel-type>
-    
-    <channel-type id="date-channel">
-        <item-type>String</item-type>
-        <label>Date</label>
-        <description>The date of the helios system</description>
-        <category>Date</category>
-        <state readOnly="true" />
-        <config-description>
-            <parameter name="DateTimeFormat" type="text" required="false">
-                <label>Date Time Format</label>
-                <description>Formattting of the date &amp; time.</description>
-                <default>yyyy-MM-dd HH:mm:ss z</default>
-            </parameter>
-        </config-description>
-    </channel-type>
-    
-    <channel-type id="dateTime-channel">
-        <item-type>DateTime</item-type>
-        <label>Date</label>
-        <description>The time of the helios system</description>
-        <category>Date</category>
-        <state readOnly="true" />
-    </channel-type>
-    
-    <channel-type id="summerWinter-channel">
-        <item-type>String</item-type>
-        <label>Summer/Winter</label>
-        <description>The summer or winter setting of the helios system</description>
-        <category>Text</category>
-        <state readOnly="true" />
-    </channel-type>
-    
+
+	<channel-type id="ref_no-channel">
+		<item-type>String</item-type>
+		<label>REF_NO</label>
+		<description>The REF_NO value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="mac_address-channel">
+		<item-type>String</item-type>
+		<label>MAC_ADDRESS</label>
+		<description>The MAC_ADDRESS value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="language-channel">
+		<item-type>String</item-type>
+		<label>LANGUAGE</label>
+		<description>The LANGUAGE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="date-channel">
+		<item-type>String</item-type>
+		<label>DATE</label>
+		<description>The DATE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="time-channel">
+		<item-type>String</item-type>
+		<label>TIME</label>
+		<description>The TIME value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="summer_winter-channel">
+		<item-type>String</item-type>
+		<label>SUMMER_WINTER</label>
+		<description>The SUMMER_WINTER value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="auto_sw_update-channel">
+		<item-type>String</item-type>
+		<label>AUTO_SW_UPDATE</label>
+		<description>The AUTO_SW_UPDATE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="access_helios_portal-channel">
+		<item-type>String</item-type>
+		<label>ACCESS_HELIOS_PORTAL</label>
+		<description>The ACCESS_HELIOS_PORTAL value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="volt_fan_s1_ea-channel">
+		<item-type>String</item-type>
+		<label>VOLT_FAN_S1_EA</label>
+		<description>The VOLT_FAN_S1_EA value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="volt_fan_s1_sa-channel">
+		<item-type>String</item-type>
+		<label>VOLT_FAN_S1_SA</label>
+		<description>The VOLT_FAN_S1_SA value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="volt_fan_s2_ea-channel">
+		<item-type>String</item-type>
+		<label>VOLT_FAN_S2_EA</label>
+		<description>The VOLT_FAN_S2_EA value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="volt_fan_s2_sa-channel">
+		<item-type>String</item-type>
+		<label>VOLT_FAN_S2_SA</label>
+		<description>The VOLT_FAN_S2_SA value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="volt_fan_s3_ea-channel">
+		<item-type>String</item-type>
+		<label>VOLT_FAN_S3_EA</label>
+		<description>The VOLT_FAN_S3_EA value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="volt_fan_s3_sa-channel">
+		<item-type>String</item-type>
+		<label>VOLT_FAN_S3_SA</label>
+		<description>The VOLT_FAN_S3_SA value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="volt_fan_s4_ea-channel">
+		<item-type>String</item-type>
+		<label>VOLT_FAN_S4_EA</label>
+		<description>The VOLT_FAN_S4_EA value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="volt_fan_s4_sa-channel">
+		<item-type>String</item-type>
+		<label>VOLT_FAN_S4_SA</label>
+		<description>The VOLT_FAN_S4_SA value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="min_fan_stage-channel">
+		<item-type>String</item-type>
+		<label>MIN_FAN_STAGE</label>
+		<description>The MIN_FAN_STAGE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="kwl_be-channel">
+		<item-type>String</item-type>
+		<label>KWL_BE</label>
+		<description>The KWL_BE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="kwl_bec-channel">
+		<item-type>String</item-type>
+		<label>KWL_BEC</label>
+		<description>The KWL_BEC value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="unit_config-channel">
+		<item-type>String</item-type>
+		<label>UNIT_CONFIG</label>
+		<description>The UNIT_CONFIG value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="pre-heater_status-channel">
+		<item-type>String</item-type>
+		<label>PRE-HEATER_STATUS</label>
+		<description>The PRE-HEATER_STATUS value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="kwl_ftf_config0-channel">
+		<item-type>String</item-type>
+		<label>KWL_FTF_CONFIG0</label>
+		<description>The KWL_FTF_CONFIG0 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="kwl_ftf_config1-channel">
+		<item-type>String</item-type>
+		<label>KWL_FTF_CONFIG1</label>
+		<description>The KWL_FTF_CONFIG1 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="kwl_ftf_config2-channel">
+		<item-type>String</item-type>
+		<label>KWL_FTF_CONFIG2</label>
+		<description>The KWL_FTF_CONFIG2 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="kwl_ftf_config3-channel">
+		<item-type>String</item-type>
+		<label>KWL_FTF_CONFIG3</label>
+		<description>The KWL_FTF_CONFIG3 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="kwl_ftf_config4-channel">
+		<item-type>String</item-type>
+		<label>KWL_FTF_CONFIG4</label>
+		<description>The KWL_FTF_CONFIG4 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="kwl_ftf_config5-channel">
+		<item-type>String</item-type>
+		<label>KWL_FTF_CONFIG5</label>
+		<description>The KWL_FTF_CONFIG5 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="kwl_ftf_config6-channel">
+		<item-type>String</item-type>
+		<label>KWL_FTF_CONFIG6</label>
+		<description>The KWL_FTF_CONFIG6 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="kwl_ftf_config7-channel">
+		<item-type>String</item-type>
+		<label>KWL_FTF_CONFIG7</label>
+		<description>The KWL_FTF_CONFIG7 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="humidity_control_status-channel">
+		<item-type>String</item-type>
+		<label>HUMIDITY_CONTROL_STATUS</label>
+		<description>The HUMIDITY_CONTROL_STATUS value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="humidity_control_set_value-channel">
+		<item-type>String</item-type>
+		<label>HUMIDITY_CONTROL_SET_VALUE</label>
+		<description>The HUMIDITY_CONTROL_SET_VALUE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="humidity_control_steps-channel">
+		<item-type>String</item-type>
+		<label>HUMIDITY_CONTROL_STEPS</label>
+		<description>The HUMIDITY_CONTROL_STEPS value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="humidity_control_stop_time-channel">
+		<item-type>String</item-type>
+		<label>HUMIDITY_CONTROL_STOP_TIME</label>
+		<description>The HUMIDITY_CONTROL_STOP_TIME value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="co2_control_status-channel">
+		<item-type>String</item-type>
+		<label>CO2_CONTROL_STATUS</label>
+		<description>The CO2_CONTROL_STATUS value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="co2_control_set_value-channel">
+		<item-type>String</item-type>
+		<label>CO2_CONTROL_SET_VALUE</label>
+		<description>The CO2_CONTROL_SET_VALUE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="co2_control_steps-channel">
+		<item-type>String</item-type>
+		<label>CO2_CONTROL_STEPS</label>
+		<description>The CO2_CONTROL_STEPS value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="voc_control_status-channel">
+		<item-type>String</item-type>
+		<label>VOC_CONTROL_STATUS</label>
+		<description>The VOC_CONTROL_STATUS value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="voc_control_set_value-channel">
+		<item-type>String</item-type>
+		<label>VOC_CONTROL_SET_VALUE</label>
+		<description>The VOC_CONTROL_SET_VALUE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="voc_control_steps-channel">
+		<item-type>String</item-type>
+		<label>VOC_CONTROL_STEPS</label>
+		<description>The VOC_CONTROL_STEPS value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="comfort_temp-channel">
+		<item-type>String</item-type>
+		<label>COMFORT_TEMP</label>
+		<description>The COMFORT_TEMP value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="time_zone_diff_to_gmt-channel">
+		<item-type>String</item-type>
+		<label>TIME_ZONE_DIFF_TO_GMT</label>
+		<description>The TIME_ZONE_DIFF_TO_GMT value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="date_format-channel">
+		<item-type>String</item-type>
+		<label>DATE_FORMAT</label>
+		<description>The DATE_FORMAT value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="heat_exchanger_type-channel">
+		<item-type>String</item-type>
+		<label>HEAT_EXCHANGER_TYPE</label>
+		<description>The HEAT_EXCHANGER_TYPE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="party-mode_duration-channel">
+		<item-type>String</item-type>
+		<label>PARTY-MODE_DURATION</label>
+		<description>The PARTY-MODE_DURATION value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="party-mode_fan_stage-channel">
+		<item-type>String</item-type>
+		<label>PARTY-MODE_FAN_STAGE</label>
+		<description>The PARTY-MODE_FAN_STAGE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="party-mode_remaining_time-channel">
+		<item-type>String</item-type>
+		<label>PARTY-MODE_REMAINING_TIME</label>
+		<description>The PARTY-MODE_REMAINING_TIME value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="party-mode-channel">
+		<item-type>String</item-type>
+		<label>PARTY-MODE</label>
+		<description>The PARTY-MODE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="standby-mode_duration-channel">
+		<item-type>String</item-type>
+		<label>STANDBY-MODE_DURATION</label>
+		<description>The STANDBY-MODE_DURATION value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="standby-mode_fan_stage-channel">
+		<item-type>String</item-type>
+		<label>STANDBY-MODE_FAN_STAGE</label>
+		<description>The STANDBY-MODE_FAN_STAGE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="standby-mode_remaining_time-channel">
+		<item-type>String</item-type>
+		<label>STANDBY-MODE_REMAINING_TIME</label>
+		<description>The STANDBY-MODE_REMAINING_TIME value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="standby-mode-channel">
+		<item-type>String</item-type>
+		<label>STANDBY-MODE</label>
+		<description>The STANDBY-MODE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="operating_mode-channel">
+		<item-type>String</item-type>
+		<label>OPERATING_MODE</label>
+		<description>The OPERATING_MODE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="fan_stage-channel">
+		<item-type>String</item-type>
+		<label>FAN_STAGE</label>
+		<description>The FAN_STAGE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="percentage_fan_stage-channel">
+		<item-type>String</item-type>
+		<label>PERCENTAGE_FAN_STAGE</label>
+		<description>The PERCENTAGE_FAN_STAGE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="temperature_outside_air-channel">
+		<item-type>String</item-type>
+		<label>TEMPERATURE_OUTSIDE_AIR</label>
+		<description>The TEMPERATURE_OUTSIDE_AIR value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="temperature_supply_air-channel">
+		<item-type>String</item-type>
+		<label>TEMPERATURE_SUPPLY_AIR</label>
+		<description>The TEMPERATURE_SUPPLY_AIR value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="temperature_outgoing_air-channel">
+		<item-type>String</item-type>
+		<label>TEMPERATURE_OUTGOING_AIR</label>
+		<description>The TEMPERATURE_OUTGOING_AIR value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="temperature_extract_air-channel">
+		<item-type>String</item-type>
+		<label>TEMPERATURE_EXTRACT_AIR</label>
+		<description>The TEMPERATURE_EXTRACT_AIR value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="vhz_duct_sensor-channel">
+		<item-type>String</item-type>
+		<label>VHZ_DUCT_SENSOR</label>
+		<description>The VHZ_DUCT_SENSOR value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="nhz_return_sensor-channel">
+		<item-type>String</item-type>
+		<label>NHZ_RETURN_SENSOR</label>
+		<description>The NHZ_RETURN_SENSOR value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-ftf_humid_1-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-FTF_HUMID_1</label>
+		<description>The EXT_SENSOR_KWL-FTF_HUMID_1 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-ftf_humid_2-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-FTF_HUMID_2</label>
+		<description>The EXT_SENSOR_KWL-FTF_HUMID_2 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-ftf_humid_3-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-FTF_HUMID_3</label>
+		<description>The EXT_SENSOR_KWL-FTF_HUMID_3 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-ftf_humid_4-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-FTF_HUMID_4</label>
+		<description>The EXT_SENSOR_KWL-FTF_HUMID_4 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-ftf_humid_5-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-FTF_HUMID_5</label>
+		<description>The EXT_SENSOR_KWL-FTF_HUMID_5 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-ftf_humid_6-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-FTF_HUMID_6</label>
+		<description>The EXT_SENSOR_KWL-FTF_HUMID_6 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-ftf_humid_7-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-FTF_HUMID_7</label>
+		<description>The EXT_SENSOR_KWL-FTF_HUMID_7 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-ftf_humid_8-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-FTF_HUMID_8</label>
+		<description>The EXT_SENSOR_KWL-FTF_HUMID_8 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-ftf_temp_1-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-FTF_TEMP_1</label>
+		<description>The EXT_SENSOR_KWL-FTF_TEMP_1 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-ftf_temp_2-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-FTF_TEMP_2</label>
+		<description>The EXT_SENSOR_KWL-FTF_TEMP_2 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-ftf_temp_3-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-FTF_TEMP_3</label>
+		<description>The EXT_SENSOR_KWL-FTF_TEMP_3 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-ftf_temp_4-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-FTF_TEMP_4</label>
+		<description>The EXT_SENSOR_KWL-FTF_TEMP_4 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-ftf_temp_5-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-FTF_TEMP_5</label>
+		<description>The EXT_SENSOR_KWL-FTF_TEMP_5 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-ftf_temp_6-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-FTF_TEMP_6</label>
+		<description>The EXT_SENSOR_KWL-FTF_TEMP_6 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-ftf_temp_7-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-FTF_TEMP_7</label>
+		<description>The EXT_SENSOR_KWL-FTF_TEMP_7 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-ftf_temp_8-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-FTF_TEMP_8</label>
+		<description>The EXT_SENSOR_KWL-FTF_TEMP_8 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-co2_1-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-CO2_1</label>
+		<description>The EXT_SENSOR_KWL-CO2_1 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-co2_2-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-CO2_2</label>
+		<description>The EXT_SENSOR_KWL-CO2_2 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-co2_3-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-CO2_3</label>
+		<description>The EXT_SENSOR_KWL-CO2_3 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-co2_4-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-CO2_4</label>
+		<description>The EXT_SENSOR_KWL-CO2_4 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-co2_5-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-CO2_5</label>
+		<description>The EXT_SENSOR_KWL-CO2_5 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-co2_6-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-CO2_6</label>
+		<description>The EXT_SENSOR_KWL-CO2_6 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-co2_7-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-CO2_7</label>
+		<description>The EXT_SENSOR_KWL-CO2_7 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-co2_8-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-CO2_8</label>
+		<description>The EXT_SENSOR_KWL-CO2_8 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-voc_1-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-VOC_1</label>
+		<description>The EXT_SENSOR_KWL-VOC_1 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-voc_2-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-VOC_2</label>
+		<description>The EXT_SENSOR_KWL-VOC_2 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-voc_3-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-VOC_3</label>
+		<description>The EXT_SENSOR_KWL-VOC_3 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-voc_4-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-VOC_4</label>
+		<description>The EXT_SENSOR_KWL-VOC_4 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-voc_5-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-VOC_5</label>
+		<description>The EXT_SENSOR_KWL-VOC_5 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-voc_6-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-VOC_6</label>
+		<description>The EXT_SENSOR_KWL-VOC_6 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-voc_7-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-VOC_7</label>
+		<description>The EXT_SENSOR_KWL-VOC_7 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ext_sensor_kwl-voc_8-channel">
+		<item-type>String</item-type>
+		<label>EXT_SENSOR_KWL-VOC_8</label>
+		<description>The EXT_SENSOR_KWL-VOC_8 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="nhz_duct_sensor-channel">
+		<item-type>String</item-type>
+		<label>NHZ_DUCT_SENSOR</label>
+		<description>The NHZ_DUCT_SENSOR value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="week_profile_nhz-channel">
+		<item-type>String</item-type>
+		<label>WEEK_PROFILE_NHZ</label>
+		<description>The WEEK_PROFILE_NHZ value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="ser_no-channel">
+		<item-type>String</item-type>
+		<label>SER_NO</label>
+		<description>The SER_NO value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="prod_code-channel">
+		<item-type>String</item-type>
+		<label>PROD_CODE</label>
+		<description>The PROD_CODE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="supply_air_rpm-channel">
+		<item-type>String</item-type>
+		<label>SUPPLY_AIR_RPM</label>
+		<description>The SUPPLY_AIR_RPM value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="extract_air_rpm-channel">
+		<item-type>String</item-type>
+		<label>EXTRACT_AIR_RPM</label>
+		<description>The EXTRACT_AIR_RPM value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="logout-channel">
+		<item-type>String</item-type>
+		<label>LOGOUT</label>
+		<description>The LOGOUT value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="holiday_programme-channel">
+		<item-type>String</item-type>
+		<label>HOLIDAY_PROGRAMME</label>
+		<description>The HOLIDAY_PROGRAMME value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="holiday_programme_fan_stage-channel">
+		<item-type>String</item-type>
+		<label>HOLIDAY_PROGRAMME_FAN_STAGE</label>
+		<description>The HOLIDAY_PROGRAMME_FAN_STAGE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="holiday_programme_start-channel">
+		<item-type>String</item-type>
+		<label>HOLIDAY_PROGRAMME_START</label>
+		<description>The HOLIDAY_PROGRAMME_START value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="holiday_programme_end-channel">
+		<item-type>String</item-type>
+		<label>HOLIDAY_PROGRAMME_END</label>
+		<description>The HOLIDAY_PROGRAMME_END value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="holiday_programme_interval-channel">
+		<item-type>String</item-type>
+		<label>HOLIDAY_PROGRAMME_INTERVAL</label>
+		<description>The HOLIDAY_PROGRAMME_INTERVAL value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="holiday_programme_activation_time-channel">
+		<item-type>String</item-type>
+		<label>HOLIDAY_PROGRAMME_ACTIVATION_TIME</label>
+		<description>The HOLIDAY_PROGRAMME_ACTIVATION_TIME value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="vhz_type-channel">
+		<item-type>String</item-type>
+		<label>VHZ_TYPE</label>
+		<description>The VHZ_TYPE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="function_type_kwl-em-channel">
+		<item-type>String</item-type>
+		<label>FUNCTION_TYPE_KWL-EM</label>
+		<description>The FUNCTION_TYPE_KWL-EM value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="run-on_time_vhz_nhz-channel">
+		<item-type>String</item-type>
+		<label>RUN-ON_TIME_VHZ_NHZ</label>
+		<description>The RUN-ON_TIME_VHZ_NHZ value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="external_contact-channel">
+		<item-type>String</item-type>
+		<label>EXTERNAL_CONTACT</label>
+		<description>The EXTERNAL_CONTACT value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="error_output_function-channel">
+		<item-type>String</item-type>
+		<label>ERROR_OUTPUT_FUNCTION</label>
+		<description>The ERROR_OUTPUT_FUNCTION value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="filter_change-channel">
+		<item-type>String</item-type>
+		<label>FILTER_CHANGE</label>
+		<description>The FILTER_CHANGE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="filter_change_interval-channel">
+		<item-type>String</item-type>
+		<label>FILTER_CHANGE_INTERVAL</label>
+		<description>The FILTER_CHANGE_INTERVAL value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="filter_change_remaining_time-channel">
+		<item-type>String</item-type>
+		<label>FILTER_CHANGE_REMAINING_TIME</label>
+		<description>The FILTER_CHANGE_REMAINING_TIME value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="bypass_room_temp-channel">
+		<item-type>String</item-type>
+		<label>BYPASS_ROOM_TEMP</label>
+		<description>The BYPASS_ROOM_TEMP value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="bypass_min_outside_temp-channel">
+		<item-type>String</item-type>
+		<label>BYPASS_MIN_OUTSIDE_TEMP</label>
+		<description>The BYPASS_MIN_OUTSIDE_TEMP value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="factory_setting_wzu-channel">
+		<item-type>String</item-type>
+		<label>FACTORY_SETTING_WZU</label>
+		<description>The FACTORY_SETTING_WZU value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="factory_reset-channel">
+		<item-type>String</item-type>
+		<label>FACTORY_RESET</label>
+		<description>The FACTORY_RESET value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="supply_air_fan_stage-channel">
+		<item-type>String</item-type>
+		<label>SUPPLY_AIR_FAN_STAGE</label>
+		<description>The SUPPLY_AIR_FAN_STAGE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="extract_air_fan_stage-channel">
+		<item-type>String</item-type>
+		<label>EXTRACT_AIR_FAN_STAGE</label>
+		<description>The EXTRACT_AIR_FAN_STAGE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="fan_stages_stepped_range0-2-channel">
+		<item-type>String</item-type>
+		<label>FAN_STAGES_STEPPED_RANGE0-2</label>
+		<description>The FAN_STAGES_STEPPED_RANGE0-2 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="fan_stages_stepped_range2-4-channel">
+		<item-type>String</item-type>
+		<label>FAN_STAGES_STEPPED_RANGE2-4</label>
+		<description>The FAN_STAGES_STEPPED_RANGE2-4 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="fan_stages_stepped_range4-6-channel">
+		<item-type>String</item-type>
+		<label>FAN_STAGES_STEPPED_RANGE4-6</label>
+		<description>The FAN_STAGES_STEPPED_RANGE4-6 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="fan_stages_stepped_range6-8-channel">
+		<item-type>String</item-type>
+		<label>FAN_STAGES_STEPPED_RANGE6-8</label>
+		<description>The FAN_STAGES_STEPPED_RANGE6-8 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="fan_stages_stepped_range8-10-channel">
+		<item-type>String</item-type>
+		<label>FAN_STAGES_STEPPED_RANGE8-10</label>
+		<description>The FAN_STAGES_STEPPED_RANGE8-10 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="offset_extract_air-channel">
+		<item-type>String</item-type>
+		<label>OFFSET_EXTRACT_AIR</label>
+		<description>The OFFSET_EXTRACT_AIR value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="fan_stages_stepped_vs_1-10v-channel">
+		<item-type>String</item-type>
+		<label>FAN_STAGES_STEPPED_VS_1-10V</label>
+		<description>The FAN_STAGES_STEPPED_VS_1-10V value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_humidity_temp1-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_HUMIDITY_TEMP1</label>
+		<description>The SENSOR_NAME_HUMIDITY_TEMP1 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_humidity_temp2-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_HUMIDITY_TEMP2</label>
+		<description>The SENSOR_NAME_HUMIDITY_TEMP2 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_humidity_temp3-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_HUMIDITY_TEMP3</label>
+		<description>The SENSOR_NAME_HUMIDITY_TEMP3 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_humidity_temp4-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_HUMIDITY_TEMP4</label>
+		<description>The SENSOR_NAME_HUMIDITY_TEMP4 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_humidity_temp5-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_HUMIDITY_TEMP5</label>
+		<description>The SENSOR_NAME_HUMIDITY_TEMP5 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_humidity_temp6-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_HUMIDITY_TEMP6</label>
+		<description>The SENSOR_NAME_HUMIDITY_TEMP6 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_humidity_temp7-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_HUMIDITY_TEMP7</label>
+		<description>The SENSOR_NAME_HUMIDITY_TEMP7 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_humidity_temp8-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_HUMIDITY_TEMP8</label>
+		<description>The SENSOR_NAME_HUMIDITY_TEMP8 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_co21-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_CO21</label>
+		<description>The SENSOR_NAME_CO21 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_co22-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_CO22</label>
+		<description>The SENSOR_NAME_CO22 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_co23-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_CO23</label>
+		<description>The SENSOR_NAME_CO23 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_co24-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_CO24</label>
+		<description>The SENSOR_NAME_CO24 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_co25-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_CO25</label>
+		<description>The SENSOR_NAME_CO25 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_co26-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_CO26</label>
+		<description>The SENSOR_NAME_CO26 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_co27-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_CO27</label>
+		<description>The SENSOR_NAME_CO27 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_co28-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_CO28</label>
+		<description>The SENSOR_NAME_CO28 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_voc1-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_VOC1</label>
+		<description>The SENSOR_NAME_VOC1 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_voc2-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_VOC2</label>
+		<description>The SENSOR_NAME_VOC2 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_voc3-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_VOC3</label>
+		<description>The SENSOR_NAME_VOC3 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_voc4-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_VOC4</label>
+		<description>The SENSOR_NAME_VOC4 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_voc5-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_VOC5</label>
+		<description>The SENSOR_NAME_VOC5 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_voc6-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_VOC6</label>
+		<description>The SENSOR_NAME_VOC6 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_voc7-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_VOC7</label>
+		<description>The SENSOR_NAME_VOC7 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sensor_name_voc8-channel">
+		<item-type>String</item-type>
+		<label>SENSOR_NAME_VOC8</label>
+		<description>The SENSOR_NAME_VOC8 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sw_version-channel">
+		<item-type>String</item-type>
+		<label>SW_VERSION</label>
+		<description>The SW_VERSION value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="operating_hours_supply_air_vent-channel">
+		<item-type>String</item-type>
+		<label>OPERATING_HOURS_SUPPLY_AIR_VENT</label>
+		<description>The OPERATING_HOURS_SUPPLY_AIR_VENT value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="operating_hours_extract_air_vent-channel">
+		<item-type>String</item-type>
+		<label>OPERATING_HOURS_EXTRACT_AIR_VENT</label>
+		<description>The OPERATING_HOURS_EXTRACT_AIR_VENT value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="operating_hours_vhz-channel">
+		<item-type>String</item-type>
+		<label>OPERATING_HOURS_VHZ</label>
+		<description>The OPERATING_HOURS_VHZ value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="operating_hours_nhz-channel">
+		<item-type>String</item-type>
+		<label>OPERATING_HOURS_NHZ</label>
+		<description>The OPERATING_HOURS_NHZ value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="output_power_vhz_percent-channel">
+		<item-type>String</item-type>
+		<label>OUTPUT_POWER_VHZ_PERCENT</label>
+		<description>The OUTPUT_POWER_VHZ_PERCENT value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="output_power_nhz_percent-channel">
+		<item-type>String</item-type>
+		<label>OUTPUT_POWER_NHZ_PERCENT</label>
+		<description>The OUTPUT_POWER_NHZ_PERCENT value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="reset_flag-channel">
+		<item-type>String</item-type>
+		<label>RESET_FLAG</label>
+		<description>The RESET_FLAG value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="errors-channel">
+		<item-type>String</item-type>
+		<label>ERRORS</label>
+		<description>The ERRORS value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="warnings-channel">
+		<item-type>String</item-type>
+		<label>WARNINGS</label>
+		<description>The WARNINGS value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="infos-channel">
+		<item-type>String</item-type>
+		<label>INFOS</label>
+		<description>The INFOS value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="number_of_errors-channel">
+		<item-type>String</item-type>
+		<label>NUMBER_OF_ERRORS</label>
+		<description>The NUMBER_OF_ERRORS value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="number_of_warnings-channel">
+		<item-type>String</item-type>
+		<label>NUMBER_OF_WARNINGS</label>
+		<description>The NUMBER_OF_WARNINGS value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="number_of_infos-channel">
+		<item-type>String</item-type>
+		<label>NUMBER_OF_INFOS</label>
+		<description>The NUMBER_OF_INFOS value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="errors_string-channel">
+		<item-type>String</item-type>
+		<label>ERRORS_STRING</label>
+		<description>The ERRORS_STRING value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="warnings_string-channel">
+		<item-type>String</item-type>
+		<label>WARNINGS_STRING</label>
+		<description>The WARNINGS_STRING value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="infos_string-channel">
+		<item-type>String</item-type>
+		<label>INFOS_STRING</label>
+		<description>The INFOS_STRING value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="status_flags-channel">
+		<item-type>String</item-type>
+		<label>STATUS_FLAGS</label>
+		<description>The STATUS_FLAGS value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="global_manual_web-update-channel">
+		<item-type>String</item-type>
+		<label>GLOBAL_MANUAL_WEB-UPDATE</label>
+		<description>The GLOBAL_MANUAL_WEB-UPDATE value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="portal_latest_error-channel">
+		<item-type>String</item-type>
+		<label>PORTAL_LATEST_ERROR</label>
+		<description>The PORTAL_LATEST_ERROR value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="clear_error-channel">
+		<item-type>String</item-type>
+		<label>CLEAR_ERROR</label>
+		<description>The CLEAR_ERROR value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="kw_ftf_config1-channel">
+		<item-type>String</item-type>
+		<label>KW_FTF_CONFIG1</label>
+		<description>The KW_FTF_CONFIG1 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="kw_ftf_config2-channel">
+		<item-type>String</item-type>
+		<label>KW_FTF_CONFIG2</label>
+		<description>The KW_FTF_CONFIG2 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="kw_ftf_config3-channel">
+		<item-type>String</item-type>
+		<label>KW_FTF_CONFIG3</label>
+		<description>The KW_FTF_CONFIG3 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="kw_ftf_config4-channel">
+		<item-type>String</item-type>
+		<label>KW_FTF_CONFIG4</label>
+		<description>The KW_FTF_CONFIG4 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="kw_ftf_config5-channel">
+		<item-type>String</item-type>
+		<label>KW_FTF_CONFIG5</label>
+		<description>The KW_FTF_CONFIG5 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="kw_ftf_config6-channel">
+		<item-type>String</item-type>
+		<label>KW_FTF_CONFIG6</label>
+		<description>The KW_FTF_CONFIG6 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="kw_ftf_config7-channel">
+		<item-type>String</item-type>
+		<label>KW_FTF_CONFIG7</label>
+		<description>The KW_FTF_CONFIG7 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="kw_ftf_config8-channel">
+		<item-type>String</item-type>
+		<label>KW_FTF_CONFIG8</label>
+		<description>The KW_FTF_CONFIG8 value of the helios system</description>
+		<category>Text</category>
+		<state readOnly="true" />
+	</channel-type>
+
 </thing:thing-descriptions>

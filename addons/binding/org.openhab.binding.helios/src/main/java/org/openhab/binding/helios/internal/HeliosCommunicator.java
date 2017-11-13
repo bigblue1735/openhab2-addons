@@ -1,15 +1,22 @@
+/**
+ * Copyright (c) 2010-2017 by the respective copyright holders.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ */
 package org.openhab.binding.helios.internal;
 
 import java.net.InetAddress;
-import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.ghgande.j2mod.modbus.io.ModbusTCPTransaction;
-import com.ghgande.j2mod.modbus.io.ModbusTCPTransport;
 import com.ghgande.j2mod.modbus.msg.ReadMultipleRegistersRequest;
 import com.ghgande.j2mod.modbus.msg.ReadMultipleRegistersResponse;
 import com.ghgande.j2mod.modbus.msg.WriteMultipleRegistersRequest;
-import com.ghgande.j2mod.modbus.msg.WriteMultipleRegistersResponse;
 import com.ghgande.j2mod.modbus.net.TCPMasterConnection;
 import com.ghgande.j2mod.modbus.procimg.Register;
 import com.ghgande.j2mod.modbus.procimg.SimpleRegister;
@@ -48,7 +55,6 @@ public class HeliosCommunicator {
             this.conn = new TCPMasterConnection(InetAddress.getByName(host));
             this.conn.setPort(port);
             this.conn.connect();
-            ((ModbusTCPTransport) this.conn.getModbusTransport()).setHeadless();
         } catch (Exception e) {
             System.err.println(e.toString());
             errorMessage = new String("Error while create helios connection:" + e.toString());
@@ -112,13 +118,13 @@ public class HeliosCommunicator {
                     return value;
 
                 } catch (Exception e) {
-                    throw new Exception("Communication with Helios device failed");
+                    throw new RuntimeException("Communication with Helios device failed");
                 }
             } else {
-                throw new Exception("Value is outside of allowed range");
+                throw new RuntimeException("Value is outside of allowed range");
             }
         } else {
-            throw new Exception("Variable is read-only");
+            throw new RuntimeException("Variable is read-only");
         }
     }
 
@@ -131,9 +137,16 @@ public class HeliosCommunicator {
      */
     public String getValue(String variableName) throws Exception {
 
-        HeliosVariable v = this.vMap.getVariable(variableName);
-        String payload = v.getVariableString();
+        if (!isOnline()) {
+            this.conn.connect();
+        }
 
+        HeliosVariable v = this.vMap.getVariable(variableName);
+        if (v == null) {
+            System.err.println(String.format("Not able to find variable with name: %s", variableName));
+            return null;
+        }
+        String payload = v.getVariableString();
         // create request 1
         WriteMultipleRegistersRequest request1 = new WriteMultipleRegistersRequest(this.startAddress,
                 this.preparePayload(payload));
@@ -144,32 +157,27 @@ public class HeliosCommunicator {
         request2.setUnitID(this.unit);
 
         // communicate with modbus
-        try {
-            ModbusTCPTransaction trans = new ModbusTCPTransaction(this.conn);
+        ModbusTCPTransaction trans = new ModbusTCPTransaction(this.conn);
 
-            // send request 1
-            trans.setRequest(request1);
-            trans.setReconnecting(true);
-            trans.setRetries(10);
-            trans.execute();
+        // send request 1
+        trans.setRequest(request1);
+        trans.setReconnecting(true);
+        trans.execute();
 
-            // receive response
-            WriteMultipleRegistersResponse response1 = (WriteMultipleRegistersResponse) trans.getResponse();
+        // receive response
+        // WriteMultipleRegistersResponse response1 = (WriteMultipleRegistersResponse) trans.getResponse();
 
-            // send request 2
-            trans.setRequest(request2);
-            trans.setReconnecting(true);
-            trans.setRetries(10);
-            trans.execute();
+        // send request 2
+        trans.setRequest(request2);
+        trans.setReconnecting(true);
+        trans.execute();
+        //
+        // // receive response
+        ReadMultipleRegistersResponse response2 = (ReadMultipleRegistersResponse) trans.getResponse();
+        String value = decodeResponse(response2.getRegisters());
 
-            // receive response
-            ReadMultipleRegistersResponse response2 = (ReadMultipleRegistersResponse) trans.getResponse();
-            String value = decodeResponse(response2.getRegisters());
-            return value;
+        return value;
 
-        } catch (Exception e) {
-            throw new Exception("Communication with Helios device failed");
-        }
     }
 
     /**
@@ -180,24 +188,25 @@ public class HeliosCommunicator {
      */
     private Register[] preparePayload(String payload) {
 
-        // determine number of registers
-        int l = (payload.length() + 1) / 2; // +1 because we need to include at least one termination symbol 0x00
-        if ((payload.length() + 1) % 2 != 0) {
-            l++;
+        List<Register> returnList = new ArrayList<Register>();
+        byte[] temp = payload.getBytes();
+        for (int i = 0; i < temp.length - 1; i++) {
+            byte b1 = temp[i];
+            i++;
+            byte b2 = temp[i];
+            Register simpleReg = new SimpleRegister(b1, b2);
+            returnList.add(simpleReg);
+        }
+        SimpleRegister emptyREg = new SimpleRegister(0);
+        returnList.add(emptyREg);
+
+        Register[] registerArryay = new Register[returnList.size()];
+        for (int i = 0; i < returnList.size(); i++) {
+            registerArryay[i] = returnList.get(i);
         }
 
-        Register reg[] = new Register[l];
-        byte[] b = payload.getBytes();
-        byte[] temp = payload.getBytes(StandardCharsets.ISO_8859_1);
-        int ch = 0;
-        for (int i = 0; i < reg.length; i++) {
-            byte b1 = ch < b.length ? b[ch] : (byte) 0x00; // terminate with 0x00 if at the end of the payload
-            ch++;
-            byte b2 = ch < b.length ? b[ch] : (byte) 0x00;
-            ch++;
-            reg[i] = new SimpleRegister(b1, b2);
-        }
-        return reg;
+        return registerArryay;
+
     }
 
     /**
