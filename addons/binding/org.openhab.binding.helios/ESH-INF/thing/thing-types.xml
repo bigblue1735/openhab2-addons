@@ -198,12 +198,10 @@
 				<description>The hostname of the Helios Device.</description>
 				<default>192.168.x.x</default>
 			</parameter>
-			<parameter name="refreshInterval" type="integer" required="true">
+			<parameter name="refreshInterval" type="integer" min="1">
 				<label>Refresh interval</label>
-				<description>
-                    Refresh interval of Messages
-                </description>
-				<default>60000</default>
+				<description>Specifies the refresh interval in seconds.</description>
+				<default>60</default>
 			</parameter>
 			<parameter name="port" type="integer" required="true">
 				<label>Port</label>

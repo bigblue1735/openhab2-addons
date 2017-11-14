@@ -56,7 +56,6 @@ public class HeliosCommunicator {
             this.conn.setPort(port);
             this.conn.connect();
         } catch (Exception e) {
-            System.err.println(e.toString());
             errorMessage = new String("Error while create helios connection:" + e.toString());
         }
     }
@@ -135,8 +134,7 @@ public class HeliosCommunicator {
      * @return The value
      * @throws HeliosException
      */
-    public String getValue(String variableName) throws Exception {
-
+    public synchronized String getValue(String variableName) throws Exception {
         if (!isOnline()) {
             this.conn.connect();
         }
@@ -174,10 +172,7 @@ public class HeliosCommunicator {
         //
         // // receive response
         ReadMultipleRegistersResponse response2 = (ReadMultipleRegistersResponse) trans.getResponse();
-        String value = decodeResponse(response2.getRegisters());
-
-        return value;
-
+        return decodeResponse(response2.getRegisters());
     }
 
     /**

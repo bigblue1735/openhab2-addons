@@ -9,6 +9,10 @@
 package org.openhab.binding.helios.handler;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.smarthome.config.core.Configuration;
 import org.eclipse.smarthome.core.library.types.StringType;
@@ -18,11 +22,8 @@ import org.eclipse.smarthome.core.thing.ThingStatus;
 import org.eclipse.smarthome.core.thing.ThingStatusDetail;
 import org.eclipse.smarthome.core.thing.binding.BaseThingHandler;
 import org.eclipse.smarthome.core.types.Command;
-import org.eclipse.smarthome.core.types.State;
 import org.openhab.binding.helios.HeliosBindingConstants;
 import org.openhab.binding.helios.internal.HeliosCommunicator;
-import org.openhab.binding.helios.internal.HeliosVariable;
-import org.openhab.binding.helios.internal.HeliosVariableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,12 +38,15 @@ public class HeliosHandler extends BaseThingHandler {
     private final Logger logger = LoggerFactory.getLogger(HeliosHandler.class);
 
     private HeliosCommunicator heliosCom;
+    BigDecimal refreshRate;
+
+    ScheduledFuture<?> refreshJob;
 
     public HeliosHandler(Thing thing) {
         super(thing);
     }
 
-    private HeliosVariableMap map;
+    List<Command> commandList;
 
     @Override
     public void handleCommand(ChannelUID channelUID, Command command) {
@@ -55,19 +59,17 @@ public class HeliosHandler extends BaseThingHandler {
         }
 
         try {
-            updateState(channelUID, convertHeliosValueToState(heliosCom.getValue(channelUID.getId()), channelUID));
+            refreshJob = scheduler.scheduleAtFixedRate(() -> {
+                try {
+                    updateState(channelUID, new StringType(heliosCom.getValue(channelUID.getId())));
+                } catch (Exception e) {
+                    logger.debug("Exception occurred during execution: {}", e.getMessage(), e);
+                    updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.OFFLINE.COMMUNICATION_ERROR, e.getMessage());
+                }
+            }, 0, refreshRate.intValue(), TimeUnit.SECONDS);
         } catch (Exception e) {
-            logger.error(String.format("not able to update Element: %s", e));
+            logger.error("not able to update Element");
         }
-
-    }
-
-    private State convertHeliosValueToState(String value, ChannelUID channelUID) {
-        HeliosVariable heliosV = map.getVariable(channelUID.getId());
-        if (heliosV != null) {
-            return new StringType(value);
-        }
-        return null;
     }
 
     @Override
@@ -78,6 +80,11 @@ public class HeliosHandler extends BaseThingHandler {
         int port = ((BigDecimal) config.get(HeliosBindingConstants.PROPERTY_PORT)).intValue();
         int unit = ((BigDecimal) config.get(HeliosBindingConstants.PROPERTY_UNIT)).intValue();
         int startAddress = ((BigDecimal) config.get(HeliosBindingConstants.PROPERTY_START_ADRESS)).intValue();
+        refreshRate = (BigDecimal) config.get(HeliosBindingConstants.PROPERTY_REFRESH_INTERVALL);
+
+        if (refreshRate == null) {
+            refreshRate = new BigDecimal(60);
+        }
 
         heliosCom = new HeliosCommunicator(host, port, unit, startAddress);
 
@@ -86,7 +93,14 @@ public class HeliosHandler extends BaseThingHandler {
                     String.format("Error while connect to helios: %s", heliosCom.getErrorMessage()));
             return;
         }
-        map = new HeliosVariableMap();
+        commandList = new ArrayList<>();
         updateStatus(ThingStatus.ONLINE);
+
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        refreshJob.cancel(true);
     }
 }
