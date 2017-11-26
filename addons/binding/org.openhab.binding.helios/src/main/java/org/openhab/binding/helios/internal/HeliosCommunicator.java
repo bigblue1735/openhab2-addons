@@ -13,6 +13,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.smarthome.core.library.types.DecimalType;
+import org.eclipse.smarthome.core.library.types.StringType;
+import org.eclipse.smarthome.core.types.State;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.ghgande.j2mod.modbus.io.ModbusTCPTransaction;
 import com.ghgande.j2mod.modbus.msg.ReadMultipleRegistersRequest;
 import com.ghgande.j2mod.modbus.msg.ReadMultipleRegistersResponse;
@@ -24,10 +30,12 @@ import com.ghgande.j2mod.modbus.procimg.SimpleRegister;
 /**
  * This class is responsible for communicating with the Helios modbus.
  *
- * @author Bernhard Bauer
- * @since 1.8.0
+ * @author Susi Loma
+ * @since 2.1.0
  */
 public class HeliosCommunicator {
+
+    private final Logger logger = LoggerFactory.getLogger(HeliosCommunicator.class);
 
     private String host;
     private int port;
@@ -132,16 +140,15 @@ public class HeliosCommunicator {
      *
      * @param variableName The variable name
      * @return The value
-     * @throws HeliosException
      */
-    public synchronized String getValue(String variableName) throws Exception {
+    public synchronized State getValue(String variableName) throws Exception {
         if (!isOnline()) {
             this.conn.connect();
         }
 
         HeliosVariable v = this.vMap.getVariable(variableName);
         if (v == null) {
-            System.err.println(String.format("Not able to find variable with name: %s", variableName));
+            logger.error("Not able to find variable with name: ");
             return null;
         }
         String payload = v.getVariableString();
@@ -172,7 +179,23 @@ public class HeliosCommunicator {
         //
         // // receive response
         ReadMultipleRegistersResponse response2 = (ReadMultipleRegistersResponse) trans.getResponse();
-        return decodeResponse(response2.getRegisters());
+        String decodeResponse = decodeResponse(response2.getRegisters());
+
+        switch (v.getType()) {
+            case HeliosVariable.TYPE_FLOAT: {
+                return new DecimalType(decodeResponse);
+            }
+            case HeliosVariable.TYPE_INTEGER: {
+                return new DecimalType(decodeResponse);
+            }
+            case HeliosVariable.TYPE_STRING: {
+                return new StringType(decodeResponse);
+            }
+            default: {
+                return new StringType(decodeResponse);
+            }
+        }
+
     }
 
     /**

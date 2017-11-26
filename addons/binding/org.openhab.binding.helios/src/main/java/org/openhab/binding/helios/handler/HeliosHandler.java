@@ -15,7 +15,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.smarthome.config.core.Configuration;
-import org.eclipse.smarthome.core.library.types.StringType;
 import org.eclipse.smarthome.core.thing.ChannelUID;
 import org.eclipse.smarthome.core.thing.Thing;
 import org.eclipse.smarthome.core.thing.ThingStatus;
@@ -61,7 +60,7 @@ public class HeliosHandler extends BaseThingHandler {
         try {
             refreshJob = scheduler.scheduleAtFixedRate(() -> {
                 try {
-                    updateState(channelUID, new StringType(heliosCom.getValue(channelUID.getId())));
+                    updateState(channelUID, heliosCom.getValue(channelUID.getId()));
                 } catch (Exception e) {
                     logger.debug("Exception occurred during execution: {}", e.getMessage(), e);
                     updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.OFFLINE.COMMUNICATION_ERROR, e.getMessage());
@@ -76,7 +75,6 @@ public class HeliosHandler extends BaseThingHandler {
     public void initialize() {
         Configuration config = getThing().getConfiguration();
         String host = (String) config.get(HeliosBindingConstants.PROPERTY_HOSTNAME);
-
         int port = ((BigDecimal) config.get(HeliosBindingConstants.PROPERTY_PORT)).intValue();
         int unit = ((BigDecimal) config.get(HeliosBindingConstants.PROPERTY_UNIT)).intValue();
         int startAddress = ((BigDecimal) config.get(HeliosBindingConstants.PROPERTY_START_ADRESS)).intValue();

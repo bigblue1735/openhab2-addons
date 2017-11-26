@@ -284,7 +284,6 @@ public class HeliosVariableMap {
                     new HeliosVariable(i, HeliosVariable.ACCESS_R, 10, 9, HeliosVariable.TYPE_INTEGER, 0, 4294967295L));
         }
 
-        // TODO: codings?
         this.vMap.put("reset_flag",
                 new HeliosVariable(1120, HeliosVariable.ACCESS_R, 1, 5, HeliosVariable.TYPE_INTEGER, 1, 1));
         this.vMap.put("errors",
@@ -375,7 +374,13 @@ public class HeliosVariableMap {
             tempBuffer.append(e.getKey());
             tempBuffer.append("-channel");
             tempBuffer.append("\">\n");
-            tempBuffer.append("<item-type>String</item-type>\n");
+            tempBuffer.append("<item-type>");
+            if (e.getValue().getType() == 3) {
+                tempBuffer.append("String");
+            } else {
+                tempBuffer.append("Number");
+            }
+            tempBuffer.append("</item-type>\n");
             tempBuffer.append("<label>");
             tempBuffer.append(e.getKey().replace("+", "_").toUpperCase());
             tempBuffer.append("</label>\n");
