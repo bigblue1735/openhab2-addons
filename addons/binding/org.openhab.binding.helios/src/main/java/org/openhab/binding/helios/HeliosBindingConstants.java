@@ -29,4 +29,5 @@ public class HeliosBindingConstants {
     public static final String PROPERTY_PORT = "port";
     public static final String PROPERTY_UNIT = "unit";
     public static final String PROPERTY_START_ADRESS = "startAdress";
+    public static final String PROPERTY_RETRY_COUNT = "retryCount";
 }

@@ -41,9 +41,13 @@ public class HeliosHandler extends BaseThingHandler {
 
     ScheduledFuture<?> refreshJob;
 
+    private int numberOfRetry;
+
     public HeliosHandler(Thing thing) {
         super(thing);
     }
+
+    private static int retries = 0;
 
     List<Command> commandList;
 
@@ -51,6 +55,11 @@ public class HeliosHandler extends BaseThingHandler {
     public void handleCommand(ChannelUID channelUID, Command command) {
 
         if (getThing().getStatus() != ThingStatus.ONLINE || heliosCom == null) {
+            if (retries < numberOfRetry) {
+                logger.info("Connection not available, try to reconnect");
+                retries++;
+                initialize();
+            }
             logger.error("Not able to get info, connection invalid or plugin offline");
             updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
                     "Connect to helios failed for some reason");
@@ -75,10 +84,12 @@ public class HeliosHandler extends BaseThingHandler {
     public void initialize() {
         Configuration config = getThing().getConfiguration();
         String host = (String) config.get(HeliosBindingConstants.PROPERTY_HOSTNAME);
+
         int port = ((BigDecimal) config.get(HeliosBindingConstants.PROPERTY_PORT)).intValue();
         int unit = ((BigDecimal) config.get(HeliosBindingConstants.PROPERTY_UNIT)).intValue();
         int startAddress = ((BigDecimal) config.get(HeliosBindingConstants.PROPERTY_START_ADRESS)).intValue();
         refreshRate = (BigDecimal) config.get(HeliosBindingConstants.PROPERTY_REFRESH_INTERVALL);
+        numberOfRetry = ((BigDecimal) config.get(HeliosBindingConstants.PROPERTY_RETRY_COUNT)).intValue();
 
         if (refreshRate == null) {
             refreshRate = new BigDecimal(60);
@@ -86,11 +97,12 @@ public class HeliosHandler extends BaseThingHandler {
 
         heliosCom = new HeliosCommunicator(host, port, unit, startAddress);
 
-        if (heliosCom == null || !heliosCom.isOnline() || heliosCom.getErrorMessage() != null) {
+        if (!heliosCom.isOnline() || heliosCom.getErrorMessage() != null) {
             updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
                     String.format("Error while connect to helios: %s", heliosCom.getErrorMessage()));
             return;
         }
+        retries = 0;
         commandList = new ArrayList<>();
         updateStatus(ThingStatus.ONLINE);
 
