@@ -56,7 +56,14 @@ public class HeliosHandler extends BaseThingHandler {
 
         if (getThing().getStatus() != ThingStatus.ONLINE || heliosCom == null) {
             if (retries < numberOfRetry) {
-//                Add thread sleep 10s                
+
+//              Add thread sleep 10s
+                try {
+			        Thread.sleep(10000);
+		        } catch (InterruptedException e) {
+			        e.printStackTrace();
+		        }
+                
                 logger.info("Connection not available, try to reconnect");
                 retries++;
                 initialize();
